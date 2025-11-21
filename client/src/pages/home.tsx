@@ -26,10 +26,23 @@ export default function Home() {
     setActiveView("form");
   };
 
+  const handleBackToWelcome = () => {
+    setActiveView("welcome");
+    setUserName("");
+    setHasSubmitted(false);
+  };
+
+  const handleViewLeaderboardFromWelcome = () => {
+    setActiveView("leaderboard");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {activeView === "welcome" && (
-        <WelcomeScreen onStart={handleStartGame} />
+        <WelcomeScreen 
+          onStart={handleStartGame} 
+          onViewLeaderboard={handleViewLeaderboardFromWelcome}
+        />
       )}
       
       {activeView === "form" && (

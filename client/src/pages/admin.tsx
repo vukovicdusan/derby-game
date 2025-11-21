@@ -70,6 +70,46 @@ export default function AdminDashboard() {
     });
   };
 
+  const handleResetAnswers = async () => {
+    if (!confirm("Tüm doğru cevapları sıfırlamak istediğinize emin misiniz?")) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await apiRequest("POST", "/api/admin/reset-answers", {});
+      
+      // Clear the form
+      setAnswers({
+        matchResult: "",
+        totalGoals: "",
+        firstGoalTeam: "",
+        firstGoalTime: "",
+        halfTimeResult: "",
+        totalCorners: "",
+        varDecision: "",
+        redCard: "",
+        topShooter: "",
+        manOfMatch: "",
+        firstSubstitution: "",
+        totalCards: "",
+      });
+
+      toast({
+        title: "Başarılı",
+        description: "Doğru cevaplar sıfırlandı!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Hata",
+        description: error.message || "Cevaplar sıfırlanırken bir hata oluştu",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleAnswerChange = (field: string, value: string) => {
     setAnswers(prev => ({
       ...prev,
@@ -358,14 +398,24 @@ export default function AdminDashboard() {
                 </Select>
               </div>
 
-              <Button 
-                onClick={handleSubmitAnswers} 
-                className="w-full" 
-                disabled={isLoading}
-                data-testid="button-submit-answers"
-              >
-                {isLoading ? "Kaydediliyor..." : "Cevapları Kaydet ve Puanları Hesapla"}
-              </Button>
+              <div className="flex gap-3">
+                <Button 
+                  onClick={handleSubmitAnswers} 
+                  className="flex-1" 
+                  disabled={isLoading}
+                  data-testid="button-submit-answers"
+                >
+                  {isLoading ? "Kaydediliyor..." : "Kaydet & Puanla"}
+                </Button>
+                <Button 
+                  onClick={handleResetAnswers} 
+                  variant="outline"
+                  disabled={isLoading}
+                  data-testid="button-reset-answers"
+                >
+                  Sıfırla
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>

@@ -162,6 +162,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin: Reset match answers
+  app.post("/api/admin/reset-answers", async (req, res) => {
+    try {
+      const adminToken = req.headers["x-admin-token"] as string;
+      const expectedToken = process.env.ADMIN_TOKEN;
+
+      // Basic token validation (optional, skip if not set)
+      if (expectedToken && adminToken !== expectedToken) {
+        return res.status(401).json({
+          error: "Unauthorized. Invalid admin token.",
+        });
+      }
+
+      await storage.resetMatchAnswers();
+
+      res.json({
+        success: true,
+        message: "Doğru cevaplar başarıyla sıfırlandı!",
+      });
+    } catch (error: any) {
+      console.error("Error resetting answers:", error);
+      res.status(500).json({
+        error: "Cevaplar sıfırlanırken bir hata oluştu.",
+      });
+    }
+  });
+
   // Health check endpoint
   app.get("/api/health", (req, res) => {
     res.json({

@@ -8,9 +8,10 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 interface WelcomeScreenProps {
   onStart: (name: string) => void;
+  onViewLeaderboard: () => void;
 }
 
-export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
+export function WelcomeScreen({ onStart, onViewLeaderboard }: WelcomeScreenProps) {
   const [name, setName] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -65,15 +66,27 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
                 />
               </div>
               
-              <Button
-                type="submit"
-                data-testid="button-start-game"
-                className="w-full text-base font-semibold"
-                size="lg"
-                disabled={!name.trim()}
-              >
-                Tahminlere Başla
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  type="submit"
+                  data-testid="button-start-game"
+                  className="w-full text-base font-semibold"
+                  size="lg"
+                  disabled={!name.trim()}
+                >
+                  Tahminlere Başla
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={onViewLeaderboard}
+                  data-testid="button-view-leaderboard"
+                  className="w-full text-base font-semibold"
+                  size="lg"
+                >
+                  Lider Tablosunu Görüntüle
+                </Button>
+              </div>
             </form>
 
             <div className="mt-6 pt-6 border-t border-border">

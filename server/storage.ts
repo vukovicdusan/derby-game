@@ -17,6 +17,7 @@ export interface IStorage {
   // Admin
   setMatchAnswers(answers: any): Promise<void>;
   recalculateAllScores(): Promise<number>;
+  resetMatchAnswers(): Promise<void>;
 }
 
 export class FirestoreStorage implements IStorage {
@@ -236,6 +237,13 @@ export class FirestoreStorage implements IStorage {
 
     console.log(`✅ Recalculated scores for ${updatedCount} predictions`);
     return updatedCount;
+  }
+
+  async resetMatchAnswers(): Promise<void> {
+    // Delete match answers from Firestore
+    await this.db.collection("matchResults").doc("current").delete();
+    
+    console.log("✅ Match answers reset successfully");
   }
 }
 
