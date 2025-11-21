@@ -12,7 +12,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { CheckCircle2, Trophy, AlertCircle, Loader2 } from "lucide-react";
 import { PlayerIdDialog } from "@/components/player-id-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -58,6 +58,8 @@ export function PredictionForm({ userName, onSubmitSuccess, onViewLeaderboard }:
     },
     onSuccess: () => {
       localStorage.removeItem(STORAGE_KEY);
+      // Invalidate leaderboard cache to trigger immediate update
+      queryClient.invalidateQueries({ queryKey: ["/api/leaderboard"] });
       toast({
         title: "Tahminler gönderildi!",
         description: "Tahminleriniz başarıyla kaydedildi. Lider tablosunda yerinizi görebilirsiniz.",
