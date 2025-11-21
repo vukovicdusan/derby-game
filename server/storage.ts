@@ -243,7 +243,17 @@ export class FirestoreStorage implements IStorage {
     // Delete match answers from Firestore
     await this.db.collection("matchResults").doc("current").delete();
     
-    console.log("✅ Match answers reset successfully");
+    // Reset all leaderboard scores to 0
+    const leaderboardSnapshot = await this.db.collection("leaderboard").get();
+    
+    for (const doc of leaderboardSnapshot.docs) {
+      await doc.ref.update({
+        score: 0,
+        totalCorrect: 0,
+      });
+    }
+    
+    console.log("✅ Match answers reset successfully and leaderboard cleared");
   }
 }
 
