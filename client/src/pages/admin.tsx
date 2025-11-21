@@ -83,9 +83,10 @@ export default function AdminDashboard() {
   const fetchApplicants = async () => {
     setIsLoadingApplicants(true);
     try {
-      const response = await apiRequest("GET", "/api/admin/applicants", {});
-      if (response.applicants) {
-        setApplicants(response.applicants);
+      const response = await apiRequest("GET", "/api/admin/applicants");
+      const data = await response.json();
+      if (data.applicants) {
+        setApplicants(data.applicants);
       }
     } catch (error: any) {
       toast({
