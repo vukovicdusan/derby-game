@@ -81,6 +81,87 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin: Set correct match answers
+  app.post("/api/admin/answers", async (req, res) => {
+    try {
+      const adminToken = req.headers["x-admin-token"] as string;
+      const expectedToken = process.env.ADMIN_TOKEN;
+
+      // Basic token validation (optional, skip if not set)
+      if (expectedToken && adminToken !== expectedToken) {
+        return res.status(401).json({
+          error: "Unauthorized. Invalid admin token.",
+        });
+      }
+
+      const answers = req.body;
+      
+      // Validate that all required fields are present
+      const requiredFields = [
+        "matchResult",
+        "totalGoals",
+        "firstGoalTeam",
+        "firstGoalTime",
+        "halfTimeResult",
+        "totalCorners",
+        "varDecision",
+        "redCard",
+        "topShooter",
+        "manOfMatch",
+        "firstSubstitution",
+        "totalCards",
+      ];
+
+      const missingFields = requiredFields.filter(field => !(field in answers));
+      if (missingFields.length > 0) {
+        return res.status(400).json({
+          error: `Eksik alanlar: ${missingFields.join(", ")}`,
+        });
+      }
+
+      // Save answers to Firestore
+      await storage.setMatchAnswers(answers);
+
+      res.json({
+        success: true,
+        message: "Doğru cevaplar başarıyla kaydedildi! Lider tablosu otomatik olarak güncellenecektir.",
+      });
+    } catch (error: any) {
+      console.error("Error setting answers:", error);
+      res.status(500).json({
+        error: "Cevaplar kaydedilirken bir hata oluştu.",
+      });
+    }
+  });
+
+  // Admin: Recalculate all scores based on correct answers
+  app.post("/api/admin/recalculate-scores", async (req, res) => {
+    try {
+      const adminToken = req.headers["x-admin-token"] as string;
+      const expectedToken = process.env.ADMIN_TOKEN;
+
+      // Basic token validation (optional, skip if not set)
+      if (expectedToken && adminToken !== expectedToken) {
+        return res.status(401).json({
+          error: "Unauthorized. Invalid admin token.",
+        });
+      }
+
+      const updatedCount = await storage.recalculateAllScores();
+
+      res.json({
+        success: true,
+        message: `${updatedCount} tahmin başarıyla yeniden puanlandırıldı!`,
+        updatedCount,
+      });
+    } catch (error: any) {
+      console.error("Error recalculating scores:", error);
+      res.status(500).json({
+        error: "Puanlar hesaplanırken bir hata oluştu.",
+      });
+    }
+  });
+
   // Health check endpoint
   app.get("/api/health", (req, res) => {
     res.json({

@@ -13,6 +13,10 @@ export interface IStorage {
   
   // Player validation
   isPlayerIdValid(playerId: string): Promise<boolean>;
+  
+  // Admin
+  setMatchAnswers(answers: any): Promise<void>;
+  recalculateAllScores(): Promise<number>;
 }
 
 export class FirestoreStorage implements IStorage {
@@ -154,6 +158,84 @@ export class FirestoreStorage implements IStorage {
     };
 
     await this.updateLeaderboardEntry(leaderboardEntry);
+  }
+
+  async setMatchAnswers(answers: any): Promise<void> {
+    // Save correct answers to Firestore
+    await this.db.collection("matchResults").doc("current").set(answers);
+    
+    console.log("✅ Match answers saved successfully");
+  }
+
+  async recalculateAllScores(): Promise<number> {
+    // Get all predictions
+    const predictionsSnapshot = await this.db.collection("predictions").get();
+    
+    if (predictionsSnapshot.empty) {
+      console.log("No predictions to recalculate");
+      return 0;
+    }
+
+    // Get correct answers
+    const answersDoc = await this.db.collection("matchResults").doc("current").get();
+    
+    if (!answersDoc.exists) {
+      console.log("No correct answers found");
+      return 0;
+    }
+
+    const correctAnswers = answersDoc.data() || {};
+    const fields = [
+      "matchResult",
+      "totalGoals",
+      "firstGoalTeam",
+      "firstGoalTime",
+      "halfTimeResult",
+      "totalCorners",
+      "varDecision",
+      "redCard",
+      "topShooter",
+      "manOfMatch",
+      "firstSubstitution",
+      "totalCards",
+    ];
+
+    let updatedCount = 0;
+
+    // Recalculate scores for each prediction
+    for (const doc of predictionsSnapshot.docs) {
+      const prediction = doc.data();
+      let score = 0;
+      let totalCorrect = 0;
+
+      // Compare each field
+      fields.forEach((field) => {
+        if (prediction[field] && correctAnswers[field] && prediction[field] === correctAnswers[field]) {
+          score += 10;
+          totalCorrect += 1;
+        }
+      });
+
+      // Update leaderboard entry
+      const submittedAt = prediction.submittedAt instanceof admin.firestore.Timestamp
+        ? prediction.submittedAt.toDate()
+        : new Date();
+
+      const leaderboardEntry: LeaderboardEntry = {
+        id: prediction.id,
+        userName: prediction.userName,
+        playerId: prediction.playerId,
+        score,
+        totalCorrect,
+        submittedAt,
+      };
+
+      await this.updateLeaderboardEntry(leaderboardEntry);
+      updatedCount++;
+    }
+
+    console.log(`✅ Recalculated scores for ${updatedCount} predictions`);
+    return updatedCount;
   }
 }
 
