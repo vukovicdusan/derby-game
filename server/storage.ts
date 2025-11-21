@@ -54,11 +54,11 @@ export class FirestoreStorage implements IStorage {
     const snapshot = await this.db
       .collection("leaderboard")
       .orderBy("score", "desc")
-      .orderBy("submittedAt", "asc")
       .limit(limit)
       .get();
 
-    return snapshot.docs.map((doc) => {
+    // Sort by submittedAt in memory if needed (for tie-breaking)
+    const entries = snapshot.docs.map((doc) => {
       const data = doc.data();
       return {
         id: data.id,
@@ -68,6 +68,14 @@ export class FirestoreStorage implements IStorage {
         totalCorrect: data.totalCorrect,
         submittedAt: data.submittedAt.toDate(),
       } as LeaderboardEntry;
+    });
+
+    // Secondary sort by submission time (earliest first) for tied scores
+    return entries.sort((a, b) => {
+      if (a.score === b.score) {
+        return a.submittedAt.getTime() - b.submittedAt.getTime();
+      }
+      return 0; // Primary sort (by score DESC) already done by orderBy
     });
   }
 
