@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { Download } from "lucide-react";
 
 // Fixed credentials
 const ADMIN_USERNAME = "admin";
@@ -17,6 +18,8 @@ export default function AdminDashboard() {
   const [password, setPassword] = useState("");
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [applicants, setApplicants] = useState<any[]>([]);
+  const [isLoadingApplicants, setIsLoadingApplicants] = useState(false);
 
   const [answers, setAnswers] = useState({
     matchResult: "",
@@ -54,6 +57,7 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setApplicants([]);
     setAnswers({
       matchResult: "",
       totalGoals: "",
@@ -67,6 +71,96 @@ export default function AdminDashboard() {
       manOfMatch: "",
       firstSubstitution: "",
       totalCards: "",
+    });
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchApplicants();
+    }
+  }, [isLoggedIn]);
+
+  const fetchApplicants = async () => {
+    setIsLoadingApplicants(true);
+    try {
+      const response = await apiRequest("GET", "/api/admin/applicants", {});
+      if (response.applicants) {
+        setApplicants(response.applicants);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Hata",
+        description: error.message || "Katılımcılar yüklenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingApplicants(false);
+    }
+  };
+
+  const exportToCSV = () => {
+    if (applicants.length === 0) {
+      toast({
+        title: "Bilgi",
+        description: "Dışa aktarılacak katılımcı bulunamadı",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Prepare CSV headers and data
+    const headers = [
+      "Ad Soyadı",
+      "Oyuncu ID",
+      "Gönderim Tarihi",
+      "Maç Sonucu",
+      "Toplam Gol",
+      "İlk Golü Kimin",
+      "İlk Gol Zamanı",
+      "İlk Yarı Sonucu",
+      "Toplam Köşe",
+      "VAR Kararı",
+      "Kırmızı Kart",
+      "En Çok Şut",
+      "Maçın Adamı",
+      "İlk Oyuncu Değişikliği",
+      "Toplam Kart",
+    ];
+
+    const rows = applicants.map((app) => [
+      app.userName,
+      app.playerId,
+      new Date(app.submittedAt).toLocaleString("tr-TR"),
+      app.matchResult || "",
+      app.totalGoals || "",
+      app.firstGoalTeam || "",
+      app.firstGoalTime || "",
+      app.halfTimeResult || "",
+      app.totalCorners || "",
+      app.varDecision || "",
+      app.redCard || "",
+      app.topShooter || "",
+      app.manOfMatch || "",
+      app.firstSubstitution || "",
+      app.totalCards || "",
+    ]);
+
+    // Create CSV content
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(",")),
+    ].join("\n");
+
+    // Download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `katilimcilar_${new Date().toISOString().split("T")[0]}.csv`;
+    link.click();
+
+    toast({
+      title: "Başarılı",
+      description: `${applicants.length} katılımcı başarıyla indirildi!`,
     });
   };
 
@@ -201,7 +295,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background p-4">
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Admin Paneli</h1>
@@ -417,6 +511,76 @@ export default function AdminDashboard() {
                 </Button>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between gap-2">
+            <div>
+              <CardTitle>Katılımcılar Listesi</CardTitle>
+              <CardDescription>{applicants.length} katılımcı kayıtlı</CardDescription>
+            </div>
+            <Button 
+              onClick={exportToCSV} 
+              variant="outline" 
+              size="sm"
+              disabled={isLoadingApplicants || applicants.length === 0}
+              data-testid="button-export-csv"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              CSV Olarak İndir
+            </Button>
+          </CardHeader>
+          <CardContent>
+            {isLoadingApplicants ? (
+              <div className="text-center py-8 text-muted-foreground">
+                Katılımcılar yükleniyor...
+              </div>
+            ) : applicants.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                Henüz hiç katılımcı kaydı yok
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="border-b">
+                    <tr>
+                      <th className="text-left p-2 font-semibold">Ad Soyadı</th>
+                      <th className="text-left p-2 font-semibold">Oyuncu ID</th>
+                      <th className="text-left p-2 font-semibold">Gönderim Tarihi</th>
+                      <th className="text-center p-2 font-semibold">Cevaplar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {applicants.map((applicant, idx) => (
+                      <tr key={idx} className="border-b hover:bg-muted/50">
+                        <td className="p-2">{applicant.userName}</td>
+                        <td className="p-2 text-muted-foreground">{applicant.playerId}</td>
+                        <td className="p-2 text-muted-foreground text-xs">
+                          {new Date(applicant.submittedAt).toLocaleString("tr-TR")}
+                        </td>
+                        <td className="p-2 text-center text-xs">
+                          {[
+                            applicant.matchResult,
+                            applicant.totalGoals,
+                            applicant.firstGoalTeam,
+                            applicant.firstGoalTime,
+                            applicant.halfTimeResult,
+                            applicant.totalCorners,
+                            applicant.varDecision,
+                            applicant.redCard,
+                            applicant.topShooter,
+                            applicant.manOfMatch,
+                            applicant.firstSubstitution,
+                            applicant.totalCards,
+                          ].filter(Boolean).length}/12
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

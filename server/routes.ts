@@ -189,6 +189,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin: Get all applicants
+  app.get("/api/admin/applicants", async (req, res) => {
+    try {
+      const adminToken = req.headers["x-admin-token"] as string;
+      const expectedToken = process.env.ADMIN_TOKEN;
+
+      // Basic token validation (optional, skip if not set)
+      if (expectedToken && adminToken !== expectedToken) {
+        return res.status(401).json({
+          error: "Unauthorized. Invalid admin token.",
+        });
+      }
+
+      const applicants = await storage.getAllPredictions();
+
+      res.json({
+        success: true,
+        count: applicants.length,
+        applicants,
+      });
+    } catch (error: any) {
+      console.error("Error fetching applicants:", error);
+      res.status(500).json({
+        error: "Katılımcılar yüklenirken bir hata oluştu.",
+      });
+    }
+  });
+
   // Health check endpoint
   app.get("/api/health", (req, res) => {
     res.json({

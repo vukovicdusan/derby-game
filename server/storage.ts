@@ -6,6 +6,7 @@ export interface IStorage {
   // Predictions
   createPrediction(prediction: InsertPrediction): Promise<string>;
   getPredictionsByPlayerId(playerId: string): Promise<any[]>;
+  getAllPredictions(): Promise<any[]>;
   
   // Leaderboard
   getLeaderboard(limit?: number): Promise<LeaderboardEntry[]>;
@@ -53,6 +54,23 @@ export class FirestoreStorage implements IStorage {
       .get();
 
     return snapshot.docs.map((doc) => doc.data());
+  }
+
+  async getAllPredictions(): Promise<any[]> {
+    const snapshot = await this.db
+      .collection("predictions")
+      .orderBy("submittedAt", "desc")
+      .get();
+
+    return snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        ...data,
+        submittedAt: data.submittedAt instanceof admin.firestore.Timestamp
+          ? data.submittedAt.toDate()
+          : data.submittedAt,
+      };
+    });
   }
 
   async getLeaderboard(limit: number = 100): Promise<LeaderboardEntry[]> {
