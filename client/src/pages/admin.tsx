@@ -92,10 +92,10 @@ export default function AdminDashboard() {
     setIsLoading(true);
     try {
       // Save answers
-      await apiRequest("/api/admin/answers", "POST", answers);
+      await apiRequest("POST", "/api/admin/answers", answers);
       
       // Recalculate scores
-      await apiRequest("/api/admin/recalculate-scores", "POST", {});
+      await apiRequest("POST", "/api/admin/recalculate-scores", {});
 
       toast({
         title: "Başarılı",
