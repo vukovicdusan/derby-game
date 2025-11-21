@@ -13,9 +13,10 @@ interface LeaderboardProps {
   hasSubmitted: boolean;
   userName: string;
   onBackToForm: () => void;
+  onBackToWelcome: () => void;
 }
 
-export function Leaderboard({ hasSubmitted, userName, onBackToForm }: LeaderboardProps) {
+export function Leaderboard({ hasSubmitted, userName, onBackToForm, onBackToWelcome }: LeaderboardProps) {
   const { data: leaderboard, isLoading, refetch, isRefetching } = useQuery<LeaderboardEntry[]>({
     queryKey: ["/api/leaderboard"],
     refetchInterval: 30000, // Auto-refresh every 30 seconds
@@ -34,6 +35,14 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
     return "outline";
   };
 
+  const handleBack = () => {
+    if (!userName) {
+      onBackToWelcome();
+    } else {
+      onBackToForm();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
       {/* Header */}
@@ -43,11 +52,11 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
             <Button
               variant="ghost"
               size="sm"
-              onClick={onBackToForm}
+              onClick={handleBack}
               data-testid="button-back-to-form"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Tahminlere Dön
+              {userName ? "Tahminlere Dön" : "Geri Dön"}
             </Button>
             <div className="flex items-center gap-2">
               <Button

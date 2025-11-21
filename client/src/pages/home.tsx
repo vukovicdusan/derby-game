@@ -58,6 +58,7 @@ export default function Home() {
           hasSubmitted={hasSubmitted}
           userName={userName}
           onBackToForm={handleBackToForm}
+          onBackToWelcome={handleBackToWelcome}
         />
       )}
     </div>
