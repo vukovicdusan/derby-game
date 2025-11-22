@@ -155,12 +155,12 @@ export function PredictionForm({ userName, onSubmitSuccess, onViewLeaderboard }:
   return (
     <div className="min-h-screen bg-background">
       {/* Header with progress */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
         <div className="max-w-2xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-3">
             <div>
               <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
-                <Trophy className="w-6 h-6 text-primary" />
+                <Trophy className="w-6 h-6 text-accent" />
                 Derby Tahmin Oyunu
               </h1>
               <p className="text-sm text-muted-foreground mt-0.5">
@@ -183,11 +183,9 @@ export function PredictionForm({ userName, onSubmitSuccess, onViewLeaderboard }:
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
               <span className="font-medium text-foreground">İlerleme</span>
-              <span className="text-muted-foreground">
-                {answeredCount}/12 tamamlandı
-              </span>
+              <Badge className="bg-accent hover:bg-accent/90 text-sm">{answeredCount}/12</Badge>
             </div>
-            <Progress value={progressPercentage} className="h-2" data-testid="progress-bar" />
+            <Progress value={progressPercentage} className="h-2 bg-accent/20" data-testid="progress-bar" />
           </div>
         </div>
       </div>
@@ -207,11 +205,11 @@ export function PredictionForm({ userName, onSubmitSuccess, onViewLeaderboard }:
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <Badge variant="secondary" className="font-semibold text-xs">
+                        <Badge className="bg-accent/20 text-accent border border-accent font-semibold text-xs">
                           {question.id}/12
                         </Badge>
                         {form.watch(question.field) && (
-                          <CheckCircle2 className="w-4 h-4 text-primary" data-testid={`check-${question.field}`} />
+                          <CheckCircle2 className="w-4 h-4 text-accent" data-testid={`check-${question.field}`} />
                         )}
                       </div>
                       <CardTitle className="text-lg md:text-xl font-bold leading-tight">

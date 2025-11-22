@@ -496,7 +496,7 @@ export default function AdminDashboard() {
               <div className="flex gap-3">
                 <Button 
                   onClick={handleSubmitAnswers} 
-                  className="flex-1" 
+                  className="flex-1 bg-accent hover:bg-accent/90" 
                   disabled={isLoading}
                   data-testid="button-submit-answers"
                 >

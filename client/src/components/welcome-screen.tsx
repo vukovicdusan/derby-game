@@ -29,8 +29,8 @@ export function WelcomeScreen({ onStart, onViewLeaderboard }: WelcomeScreenProps
       
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4">
-            <Trophy className="w-10 h-10 text-primary" />
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent/20 mb-4 border-2 border-accent">
+            <Trophy className="w-10 h-10 text-accent" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3">
             Derby Tahmin Oyunu
@@ -40,9 +40,9 @@ export function WelcomeScreen({ onStart, onViewLeaderboard }: WelcomeScreenProps
           </p>
         </div>
 
-        <Card className="border-card-border">
+        <Card className="border-card-border border-l-4 border-l-accent">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl font-bold">Hoş Geldiniz!</CardTitle>
+            <CardTitle className="text-2xl font-bold text-accent">Hoş Geldiniz!</CardTitle>
             <CardDescription className="text-base">
               Tahminlerinizi yapmak için adınızı girin
             </CardDescription>

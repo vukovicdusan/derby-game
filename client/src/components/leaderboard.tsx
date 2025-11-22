@@ -46,7 +46,7 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm, onBackToWelc
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Button
@@ -55,7 +55,7 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm, onBackToWelc
               onClick={handleBack}
               data-testid="button-back-to-form"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="w-4 h-4 mr-2 text-accent" />
               {userName ? "Tahminlere Dön" : "Geri Dön"}
             </Button>
             <div className="flex items-center gap-2">
@@ -78,10 +78,10 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm, onBackToWelc
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <Trophy className="w-8 h-8 text-primary" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/20 mb-4 border-2 border-accent">
+            <Trophy className="w-8 h-8 text-accent" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-accent mb-2">
             Lider Tablosu
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -90,10 +90,10 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm, onBackToWelc
         </div>
 
         {hasSubmitted && (
-          <Card className="mb-6 border-primary/20 bg-primary/5">
+          <Card className="mb-6 border-accent/40 bg-accent/10 border-l-4 border-l-accent">
             <CardContent className="pt-6">
-              <p className="text-center text-base">
-                🎉 Tahminleriniz başarıyla gönderildi! Skorunuz hesaplandığında burada görünecektir.
+              <p className="text-center text-base text-foreground">
+                Tahminleriniz başarıyla gönderildi! Skorunuz hesaplandığında burada görünecektir.
               </p>
             </CardContent>
           </Card>
