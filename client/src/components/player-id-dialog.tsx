@@ -8,17 +8,18 @@ import { Loader2, UserCheck } from "lucide-react";
 interface PlayerIdDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (playerId: string) => void;
+  onSubmit: (userName: string, playerId: string) => void;
   isSubmitting: boolean;
 }
 
 export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: PlayerIdDialogProps) {
+  const [userName, setUserName] = useState("");
   const [playerId, setPlayerId] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (playerId.trim()) {
-      onSubmit(playerId.trim());
+    if (userName.trim() && playerId.trim()) {
+      onSubmit(userName.trim(), playerId.trim());
     }
   };
 
@@ -42,6 +43,27 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
         <form onSubmit={handleSubmit}>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
+              <Label htmlFor="userName" className="text-base font-medium">
+                Adınız
+              </Label>
+              <Input
+                id="userName"
+                data-testid="input-username-dialog"
+                type="text"
+                placeholder="Örn: Ahmet Yılmaz"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                className="text-base"
+                required
+                autoFocus
+                disabled={isSubmitting}
+              />
+              <p className="text-sm text-muted-foreground">
+                Lider tablosunda gösterilecek adınız
+              </p>
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="playerId" className="text-base font-medium">
                 Oyuncu ID
               </Label>
@@ -54,7 +76,6 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 onChange={(e) => setPlayerId(e.target.value)}
                 className="text-base"
                 required
-                autoFocus
                 disabled={isSubmitting}
               />
               <p className="text-sm text-muted-foreground">
@@ -75,7 +96,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
             </Button>
             <Button
               type="submit"
-              disabled={!playerId.trim() || isSubmitting}
+              disabled={!userName.trim() || !playerId.trim() || isSubmitting}
               data-testid="button-confirm-player-id"
             >
               {isSubmitting ? (

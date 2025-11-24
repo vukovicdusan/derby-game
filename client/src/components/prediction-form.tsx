@@ -132,10 +132,11 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
     setShowPlayerIdDialog(true);
   };
 
-  const handlePlayerIdSubmit = (playerId: string) => {
+  const handlePlayerIdSubmit = (dialogUserName: string, playerId: string) => {
     const formData = form.getValues();
     const submitData: InsertPrediction = {
       ...formData,
+      userName: dialogUserName,
       playerId,
       matchResult: formData.matchResult!,
       totalGoals: formData.totalGoals!,
