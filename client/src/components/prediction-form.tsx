@@ -182,24 +182,6 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
           {/* Header with progress - positioned below banner */}
           <div className="sticky top-[125px] md:top-[155px] z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
             <div className="max-w-2xl mx-auto px-4 py-4">
-              <div className="flex items-center justify-between mb-3">
-                <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
-                  <Trophy className="w-6 h-6 text-accent" />
-                  Derby Tahmin Oyunu
-                </h1>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={onViewLeaderboard}
-                    data-testid="button-view-leaderboard"
-                  >
-                    Lider Tablosu
-                  </Button>
-                  <ThemeToggle />
-                </div>
-              </div>
-              
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <span className="font-medium text-foreground">İlerleme</span>
@@ -212,6 +194,31 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
 
           {/* Form content - adjusted for fixed banner and sticky header */}
           <div className="max-w-2xl mx-auto px-4 py-8 pt-[170px] md:pt-[200px]">
+            {/* Title and Description Section */}
+            <div className="mb-8 relative">
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div className="flex-1">
+                  <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
+                    Süperbahis – 12 Soruluk Maç Tahmin Etkinliği (100.000 TL Ödüllü)
+                  </h1>
+                  <p className="text-base text-muted-foreground">
+                    Katılım Şartı: Son 7 günde minimum 1.000 TL yatırım yapan kullanıcılar katılabilir.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onViewLeaderboard}
+                    data-testid="button-view-leaderboard"
+                  >
+                    Lider Tablosu
+                  </Button>
+                  <ThemeToggle />
+                </div>
+              </div>
+            </div>
+
             <Form {...form}>
               <form className="space-y-6">
                 {QUESTIONS.map((question) => (
