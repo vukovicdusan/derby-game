@@ -70,13 +70,14 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
               <Input
                 id="playerId"
                 data-testid="input-player-id"
-                type="text"
+                type="number"
                 placeholder="ID Numaranız"
                 value={playerId}
                 onChange={(e) => setPlayerId(e.target.value)}
                 className="text-base"
                 required
                 disabled={isSubmitting}
+                min="0"
               />
               <p className="text-sm text-muted-foreground">
                 ID sadece rakamlardan oluşmaktadır.
