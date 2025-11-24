@@ -8,6 +8,8 @@ import { Trophy, Medal, Award, ArrowLeft, RefreshCw, Users } from "lucide-react"
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
 import { ThemeToggle } from "@/components/theme-toggle";
+import bannerImage from "@assets/Sign-Up_Sport_June_2025_September-970x250-Stack_Digital_1763998273969.webp";
+import logoImage from "@assets/superbahis-logo_1763999127745.png";
 
 interface LeaderboardProps {
   hasSubmitted: boolean;
@@ -40,8 +42,23 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
-      {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
+      {/* Fixed Banner - centered with max width */}
+      <div className="fixed top-0 left-0 right-0 z-20 flex justify-center">
+        <div className="w-full max-w-[700px]">
+          <img 
+            src={bannerImage} 
+            alt="Sports Bonus Banner" 
+            className="w-full h-auto object-cover"
+            data-testid="banner-image"
+          />
+        </div>
+      </div>
+
+      {/* Gap filler with background */}
+      <div className="fixed top-[61px] md:top-[81px] left-0 right-0 h-4 z-10 bg-background/95 backdrop-blur-sm"></div>
+
+      {/* Header with progress - positioned below banner with 1rem gap */}
+      <div className="sticky top-[141px] md:top-[171px] z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Button
@@ -71,15 +88,20 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8 pt-[186px] md:pt-[216px]">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/20 mb-4 border-2 border-accent">
-            <Trophy className="w-8 h-8 text-accent" />
+          <div className="flex justify-center mb-4">
+            <img 
+              src={logoImage} 
+              alt="Superbahis Logo" 
+              className="max-w-[250px] h-auto"
+              data-testid="logo-image"
+            />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-accent mb-2">
-            Lider Tablosu
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3 uppercase">
+            Süperbahis – 12 Soruluk Maç Tahmin Etkinliği (100.000 TL Ödüllü)
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground mb-4">
             En yüksek skorlara sahip tahmin ustalarımız
           </p>
         </div>
