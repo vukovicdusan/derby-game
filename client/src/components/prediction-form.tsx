@@ -169,10 +169,10 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
     <div className="min-h-screen bg-background">
       <>
           {/* Top Navigation Header */}
-          <div className="fixed top-0 left-0 right-0 z-50 bg-background border-b-2 border-accent">
-            <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="fixed top-0 left-0 right-0 z-50 bg-background">
+            <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-end gap-2">
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 asChild
                 data-testid="button-lider-tablosu"
@@ -180,9 +180,9 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                 <a href="#">Lider Tablosu</a>
               </Button>
               <Button
-                variant="outline"
                 size="sm"
                 asChild
+                className="bg-primary hover:bg-primary/90"
                 data-testid="button-superbahis-uye-ol"
               >
                 <a href="#">Superbahis'e Üye Ol</a>
