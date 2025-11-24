@@ -99,13 +99,13 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
       if (value.firstGoalTeam) count++;
       if (value.firstGoalTime) count++;
       if (value.halfTimeResult) count++;
-      if (value.totalCorners) count++;
+      if (value.totalCards) count++;
       if (value.varDecision) count++;
+      if (value.totalCorners) count++;
       if (value.redCard) count++;
       if (value.topShooter) count++;
-      if (value.manOfMatch) count++;
       if (value.firstSubstitution) count++;
-      if (value.totalCards) count++;
+      if (value.penalty) count++;
       
       setAnsweredCount(count);
     });
@@ -145,13 +145,13 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
       firstGoalTeam: formData.firstGoalTeam!,
       firstGoalTime: formData.firstGoalTime!,
       halfTimeResult: formData.halfTimeResult!,
-      totalCorners: formData.totalCorners!,
+      totalCards: formData.totalCards!,
       varDecision: formData.varDecision!,
+      totalCorners: formData.totalCorners!,
       redCard: formData.redCard!,
       topShooter: formData.topShooter!,
-      manOfMatch: formData.manOfMatch!,
       firstSubstitution: formData.firstSubstitution!,
-      totalCards: formData.totalCards!,
+      penalty: formData.penalty!,
     };
     submitMutation.mutate(submitData);
   };

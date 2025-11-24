@@ -6,18 +6,18 @@ export const predictionSchema = z.object({
   userName: z.string().min(1, "İsim gerekli"),
   playerId: z.string().min(1, "Oyuncu ID gerekli"),
   
-  // Question 1: Maçın sonucu ne olur?
-  matchResult: z.enum(["home", "draw", "away"], {
+  // Question 1: Derbinin sonucu ne olur?
+  matchResult: z.enum(["fenerbahce", "draw", "galatasaray"], {
     required_error: "Maç sonucu seçmelisiniz"
   }),
   
-  // Question 2: Toplam gol sayısı kaç olur?
-  totalGoals: z.enum(["0-1", "2-3", "4+"], {
+  // Question 2: Derbide toplam kaç gol olur?
+  totalGoals: z.enum(["0-2", "3-4", "5+"], {
     required_error: "Toplam gol sayısı seçmelisiniz"
   }),
   
   // Question 3: İlk golü hangi takım atar?
-  firstGoalTeam: z.enum(["teamA", "teamB", "noGoal"], {
+  firstGoalTeam: z.enum(["fenerbahce", "galatasaray", "noGoal"], {
     required_error: "İlk gol takımını seçmelisiniz"
   }),
   
@@ -26,40 +26,42 @@ export const predictionSchema = z.object({
     required_error: "İlk gol dakikasını seçmelisiniz"
   }),
   
-  // Question 5: Maçın ilk yarı sonucu nedir?
-  halfTimeResult: z.enum(["home", "draw", "away"], {
+  // Question 5: İlk yarı sonucu ne olur?
+  halfTimeResult: z.enum(["fenerbahce", "draw", "galatasaray"], {
     required_error: "İlk yarı sonucunu seçmelisiniz"
   }),
   
-  // Question 6: Maçın toplam korner sayısı?
-  totalCorners: z.enum(["0-7", "8-11", "12+"], {
-    required_error: "Korner sayısını seçmelisiniz"
+  // Question 6: Derbide kaç sarı/kırmızı kart çıkar?
+  totalCards: z.enum(["0-3", "4-6", "6-9", "10+"], {
+    required_error: "Kart sayısını seçmelisiniz"
   }),
   
-  // Question 7: VAR kararı olur mu?
+  // Question 7: Hakem VAR'a gider mi?
   varDecision: z.enum(["yes", "no"], {
     required_error: "VAR kararını seçmelisiniz"
   }),
   
-  // Question 8: Kırmızı kart çıkar mı?
+  // Question 8: Derbide kaç korner olur?
+  totalCorners: z.enum(["0-7", "8-11", "12+"], {
+    required_error: "Korner sayısını seçmelisiniz"
+  }),
+  
+  // Question 9: Derbide kırmızı kart çıkar mı?
   redCard: z.enum(["yes", "no"], {
     required_error: "Kırmızı kart seçimini yapmalısınız"
   }),
   
-  // Question 9: En çok şut çeken oyuncu kim olur?
+  // Question 10: Derbide en çok isabetli şut çeken oyuncu kim olur?
   topShooter: z.string().min(1, "Oyuncu seçmelisiniz"),
   
-  // Question 10: Maçın adamı kim seçilir?
-  manOfMatch: z.string().min(1, "Oyuncu seçmelisiniz"),
-  
   // Question 11: İlk oyuncu değişikliğini hangi takım yapar?
-  firstSubstitution: z.enum(["home", "away"], {
+  firstSubstitution: z.enum(["fenerbahce", "galatasaray"], {
     required_error: "İlk değişiklik takımını seçmelisiniz"
   }),
   
-  // Question 12: Derbide toplam kart sayısı kaç olur?
-  totalCards: z.enum(["0-2", "3-5", "6+"], {
-    required_error: "Kart sayısını seçmelisiniz"
+  // Question 12: Derbide penaltı olur mu?
+  penalty: z.enum(["yes", "no"], {
+    required_error: "Penaltı seçimini yapmalısınız"
   }),
   
   // Metadata
@@ -100,36 +102,43 @@ export type Player = z.infer<typeof playerSchema>;
 
 // Question options for UI
 export const PLAYER_OPTIONS = [
-  "Oyuncu 1",
-  "Oyuncu 2",
-  "Oyuncu 3",
-  "Oyuncu 4",
-  "Oyuncu 5",
-  "Oyuncu 6",
+  "Victor Osimhen",
+  "John Duran",
+  "Barış Alper Yılmaz",
+  "Leroy Sane",
+  "Marco Asencio",
+  "Kerem Aktürkoğlu",
+  "İlkay Gündoğan",
+  "Nene",
+  "En-Nesyri",
+  "Mauro Icardi",
+  "Lucas Torreira",
+  "Fred",
+  "Diğer",
 ];
 
 // Questions configuration
 export const QUESTIONS = [
   {
     id: 1,
-    question: "Maçın sonucu ne olur?",
+    question: "Derbinin sonucu ne olur?",
     field: "matchResult" as const,
     type: "radio" as const,
     options: [
-      { value: "home", label: "Ev sahibi kazanır" },
-      { value: "draw", label: "Berabere" },
-      { value: "away", label: "Deplasman kazanır" },
+      { value: "fenerbahce", label: "Fenerbahçe kazanır" },
+      { value: "draw", label: "Berabere biter" },
+      { value: "galatasaray", label: "Galatasaray kazanır" },
     ],
   },
   {
     id: 2,
-    question: "Toplam gol sayısı kaç olur?",
+    question: "Derbide toplam kaç gol olur?",
     field: "totalGoals" as const,
     type: "radio" as const,
     options: [
-      { value: "0-1", label: "0–1" },
-      { value: "2-3", label: "2–3" },
-      { value: "4+", label: "4+" },
+      { value: "0-2", label: "0-2" },
+      { value: "3-4", label: "3-4" },
+      { value: "5+", label: "5+" },
     ],
   },
   {
@@ -138,8 +147,8 @@ export const QUESTIONS = [
     field: "firstGoalTeam" as const,
     type: "radio" as const,
     options: [
-      { value: "teamA", label: "A Takımı" },
-      { value: "teamB", label: "B Takımı" },
+      { value: "fenerbahce", label: "Fenerbahçe" },
+      { value: "galatasaray", label: "Galatasaray" },
       { value: "noGoal", label: "Gol olmaz" },
     ],
   },
@@ -149,40 +158,41 @@ export const QUESTIONS = [
     field: "firstGoalTime" as const,
     type: "radio" as const,
     options: [
-      { value: "0-15", label: "0–15" },
-      { value: "16-30", label: "16–30" },
-      { value: "31-45", label: "31–45" },
-      { value: "46-60", label: "46–60" },
-      { value: "61-75", label: "61–75" },
-      { value: "76-90", label: "76–90" },
+      { value: "0-15", label: "0-15" },
+      { value: "16-30", label: "16-30" },
+      { value: "31-45", label: "31-45" },
+      { value: "46-60", label: "46-60" },
+      { value: "61-75", label: "61-75" },
+      { value: "76-90", label: "76-90" },
       { value: "noGoal", label: "Gol olmaz" },
     ],
   },
   {
     id: 5,
-    question: "Maçın ilk yarı sonucu nedir?",
+    question: "İlk yarı sonucu ne olur?",
     field: "halfTimeResult" as const,
     type: "radio" as const,
     options: [
-      { value: "home", label: "Ev sahibi" },
+      { value: "fenerbahce", label: "Fenerbahçe" },
       { value: "draw", label: "Berabere" },
-      { value: "away", label: "Deplasman" },
+      { value: "galatasaray", label: "Galatasaray" },
     ],
   },
   {
     id: 6,
-    question: "Maçın toplam korner sayısı?",
-    field: "totalCorners" as const,
+    question: "Derbide kaç sarı/kırmızı kart çıkar?",
+    field: "totalCards" as const,
     type: "radio" as const,
     options: [
-      { value: "0-7", label: "0–7" },
-      { value: "8-11", label: "8–11" },
-      { value: "12+", label: "12+" },
+      { value: "0-3", label: "0-3" },
+      { value: "4-6", label: "4-6" },
+      { value: "6-9", label: "6-9" },
+      { value: "10+", label: "10+" },
     ],
   },
   {
     id: 7,
-    question: "VAR kararı olur mu?",
+    question: "Hakem VAR'a gider mi?",
     field: "varDecision" as const,
     type: "radio" as const,
     options: [
@@ -192,7 +202,18 @@ export const QUESTIONS = [
   },
   {
     id: 8,
-    question: "Kırmızı kart çıkar mı?",
+    question: "Derbide kaç korner olur?",
+    field: "totalCorners" as const,
+    type: "radio" as const,
+    options: [
+      { value: "0-7", label: "0-7" },
+      { value: "8-11", label: "8-11" },
+      { value: "12+", label: "12+" },
+    ],
+  },
+  {
+    id: 9,
+    question: "Derbide kırmızı kart çıkar mı?",
     field: "redCard" as const,
     type: "radio" as const,
     options: [
@@ -201,16 +222,9 @@ export const QUESTIONS = [
     ],
   },
   {
-    id: 9,
-    question: "En çok şut çeken oyuncu kim olur?",
-    field: "topShooter" as const,
-    type: "select" as const,
-    options: PLAYER_OPTIONS.map(player => ({ value: player, label: player })),
-  },
-  {
     id: 10,
-    question: "Maçın adamı kim seçilir?",
-    field: "manOfMatch" as const,
+    question: "Derbide en çok isabetli şut çeken oyuncu kim olur?",
+    field: "topShooter" as const,
     type: "select" as const,
     options: PLAYER_OPTIONS.map(player => ({ value: player, label: player })),
   },
@@ -220,19 +234,18 @@ export const QUESTIONS = [
     field: "firstSubstitution" as const,
     type: "radio" as const,
     options: [
-      { value: "home", label: "Ev sahibi" },
-      { value: "away", label: "Deplasman" },
+      { value: "fenerbahce", label: "Fenerbahçe" },
+      { value: "galatasaray", label: "Galatasaray" },
     ],
   },
   {
     id: 12,
-    question: "Derbide toplam kart sayısı kaç olur?",
-    field: "totalCards" as const,
+    question: "Derbide penaltı olur mu?",
+    field: "penalty" as const,
     type: "radio" as const,
     options: [
-      { value: "0-2", label: "0–2" },
-      { value: "3-5", label: "3–5" },
-      { value: "6+", label: "6+" },
+      { value: "yes", label: "Evet" },
+      { value: "no", label: "Hayır" },
     ],
   },
 ] as const;
