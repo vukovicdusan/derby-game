@@ -36,6 +36,11 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
     return "outline";
   };
 
+  const maskName = (name: string) => {
+    if (name.length <= 3) return name;
+    return name.substring(0, 3) + "*".repeat(name.length - 3);
+  };
+
   const handleBack = () => {
     onBackToForm();
   };
@@ -214,7 +219,7 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <p className="font-semibold text-foreground truncate">
-                          {entry.userName}
+                          {maskName(entry.userName)}
                         </p>
                         {isCurrentUser && (
                           <Badge variant="secondary" className="text-xs">
