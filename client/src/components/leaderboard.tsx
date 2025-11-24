@@ -37,8 +37,11 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
   };
 
   const maskName = (name: string) => {
-    if (name.length <= 3) return name;
-    return name.substring(0, 3) + "*".repeat(name.length - 3);
+    const words = name.split(" ");
+    return words.map(word => {
+      if (word.length <= 3) return word;
+      return word.substring(0, 3) + "*".repeat(word.length - 3);
+    }).join(" ");
   };
 
   const handleBack = () => {
