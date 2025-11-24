@@ -71,9 +71,10 @@ export type Prediction = z.infer<typeof predictionSchema>;
 export const insertPredictionSchema = predictionSchema.omit({ submittedAt: true });
 export type InsertPrediction = z.infer<typeof insertPredictionSchema>;
 
-// Form validation schema (playerId optional for form validation, required for submission)
+// Form validation schema (playerId and userName optional for form validation, required for submission)
 export const formPredictionSchema = insertPredictionSchema.extend({
   playerId: z.string().optional(),
+  userName: z.string().optional(),
 });
 export type FormPrediction = z.infer<typeof formPredictionSchema>;
 
