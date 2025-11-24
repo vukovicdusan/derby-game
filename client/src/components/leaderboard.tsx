@@ -57,8 +57,33 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
       {/* Gap filler with background */}
       <div className="fixed top-[61px] md:top-[81px] left-0 right-0 h-4 z-10 bg-background/95 backdrop-blur-sm"></div>
 
-      {/* Header with progress - positioned below banner with 1rem gap */}
-      <div className="sticky top-[141px] md:top-[171px] z-10 bg-background border-b-2 border-accent">
+      {/* Top Navigation Header */}
+      <div className="sticky top-[125px] md:top-[145px] z-10 bg-background border-b-2 border-accent">
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              data-testid="button-lider-tablosu"
+            >
+              <a href="#">Lider Tablosu</a>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              data-testid="button-superbahis-uye-ol"
+            >
+              <a href="#">Superbahis'e Üye Ol</a>
+            </Button>
+            <ThemeToggle />
+          </div>
+        </div>
+      </div>
+
+      {/* Header with back and refresh - positioned below top nav */}
+      <div className="sticky top-[197px] md:top-[225px] z-10 bg-background border-b-2 border-accent">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Button
@@ -70,25 +95,22 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
               <ArrowLeft className="w-4 h-4 mr-2 text-accent" />
               {userName ? "Tahminlere Dön" : "Geri Dön"}
             </Button>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => refetch()}
-                disabled={isRefetching}
-                data-testid="button-refresh-leaderboard"
-              >
-                <RefreshCw className={`w-4 h-4 mr-2 ${isRefetching ? "animate-spin" : ""}`} />
-                Yenile
-              </Button>
-              <ThemeToggle />
-            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => refetch()}
+              disabled={isRefetching}
+              data-testid="button-refresh-leaderboard"
+            >
+              <RefreshCw className={`w-4 h-4 mr-2 ${isRefetching ? "animate-spin" : ""}`} />
+              Yenile
+            </Button>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8 pt-[186px] md:pt-[216px]">
+      <div className="max-w-4xl mx-auto px-4 py-8 pt-[268px] md:pt-[305px]">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <img 
