@@ -36,7 +36,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
             </div>
           </div>
           <DialogDescription className="text-base leading-relaxed pt-2">
-            Tahminlerinizi göndermek için başka bir web sitesinden aldığınız Oyuncu ID'nizi girmeniz gerekmektedir.
+            Lütfen Süperbahis hesabınızda yer alan Oyuncu ID'nizi aşağıya girin.
           </DialogDescription>
         </DialogHeader>
         
@@ -44,7 +44,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="userName" className="text-base font-medium">
-                Adınız
+                Ad
               </Label>
               <Input
                 id="userName"
@@ -65,7 +65,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
 
             <div className="space-y-2">
               <Label htmlFor="playerId" className="text-base font-medium">
-                Oyuncu ID
+                ID Numaranız
               </Label>
               <Input
                 id="playerId"
@@ -79,25 +79,25 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 disabled={isSubmitting}
               />
               <p className="text-sm text-muted-foreground">
-                Bu ID, tahminlerinizi diğer web sitenizdeki hesabınızla ilişkilendirir.
+                ID sadece rakamlardan oluşmaktadır.
               </p>
             </div>
           </div>
           
-          <DialogFooter>
+          <DialogFooter className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-0">
             <Button
               type="button"
               variant="outline"
-              onClick={() => onOpenChange(false)}
-              disabled={isSubmitting}
-              data-testid="button-cancel-player-id"
+              asChild
+              data-testid="button-superbahis-signup"
             >
-              İptal
+              <a href="#">Süperbahis'e Üye Ol</a>
             </Button>
             <Button
               type="submit"
               disabled={!userName.trim() || !playerId.trim() || isSubmitting}
               data-testid="button-confirm-player-id"
+              className="bg-[#ff3752] hover:bg-[#ff3752]/90"
             >
               {isSubmitting ? (
                 <>
@@ -105,7 +105,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                   Gönderiliyor...
                 </>
               ) : (
-                "Onayla ve Gönder"
+                "Etkinliğe Katıl"
               )}
             </Button>
           </DialogFooter>
