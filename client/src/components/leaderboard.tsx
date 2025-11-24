@@ -96,7 +96,7 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
       {/* Header with progress - positioned below banner with 1rem gap */}
       <div className="sticky top-[201px] md:top-[241px] bg-background border-b-2 border-accent">
         <div className="max-w-4xl mx-auto px-4 py-4 z-10">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between z-20">
             <Button
               variant="ghost"
               size="sm"
