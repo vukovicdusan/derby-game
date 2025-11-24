@@ -113,6 +113,7 @@ export const QUESTIONS = [
     id: 1,
     question: "Maçın sonucu ne olur?",
     field: "matchResult" as const,
+    type: "radio" as const,
     options: [
       { value: "home", label: "Ev sahibi kazanır" },
       { value: "draw", label: "Berabere" },
@@ -123,6 +124,7 @@ export const QUESTIONS = [
     id: 2,
     question: "Toplam gol sayısı kaç olur?",
     field: "totalGoals" as const,
+    type: "radio" as const,
     options: [
       { value: "0-1", label: "0–1" },
       { value: "2-3", label: "2–3" },
@@ -133,6 +135,7 @@ export const QUESTIONS = [
     id: 3,
     question: "İlk golü hangi takım atar?",
     field: "firstGoalTeam" as const,
+    type: "radio" as const,
     options: [
       { value: "teamA", label: "A Takımı" },
       { value: "teamB", label: "B Takımı" },
@@ -143,6 +146,7 @@ export const QUESTIONS = [
     id: 4,
     question: "İlk gol hangi dakikada gelir?",
     field: "firstGoalTime" as const,
+    type: "radio" as const,
     options: [
       { value: "0-15", label: "0–15" },
       { value: "16-30", label: "16–30" },
@@ -157,6 +161,7 @@ export const QUESTIONS = [
     id: 5,
     question: "Maçın ilk yarı sonucu nedir?",
     field: "halfTimeResult" as const,
+    type: "radio" as const,
     options: [
       { value: "home", label: "Ev sahibi" },
       { value: "draw", label: "Berabere" },
@@ -167,6 +172,7 @@ export const QUESTIONS = [
     id: 6,
     question: "Maçın toplam korner sayısı?",
     field: "totalCorners" as const,
+    type: "radio" as const,
     options: [
       { value: "0-7", label: "0–7" },
       { value: "8-11", label: "8–11" },
@@ -177,6 +183,7 @@ export const QUESTIONS = [
     id: 7,
     question: "VAR kararı olur mu?",
     field: "varDecision" as const,
+    type: "radio" as const,
     options: [
       { value: "yes", label: "Evet" },
       { value: "no", label: "Hayır" },
@@ -186,6 +193,7 @@ export const QUESTIONS = [
     id: 8,
     question: "Kırmızı kart çıkar mı?",
     field: "redCard" as const,
+    type: "radio" as const,
     options: [
       { value: "yes", label: "Evet" },
       { value: "no", label: "Hayır" },
@@ -209,6 +217,7 @@ export const QUESTIONS = [
     id: 11,
     question: "İlk oyuncu değişikliğini hangi takım yapar?",
     field: "firstSubstitution" as const,
+    type: "radio" as const,
     options: [
       { value: "home", label: "Ev sahibi" },
       { value: "away", label: "Deplasman" },
@@ -218,6 +227,7 @@ export const QUESTIONS = [
     id: 12,
     question: "Derbide toplam kart sayısı kaç olur?",
     field: "totalCards" as const,
+    type: "radio" as const,
     options: [
       { value: "0-2", label: "0–2" },
       { value: "3-5", label: "3–5" },

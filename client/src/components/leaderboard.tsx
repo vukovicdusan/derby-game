@@ -13,10 +13,9 @@ interface LeaderboardProps {
   hasSubmitted: boolean;
   userName: string;
   onBackToForm: () => void;
-  onBackToWelcome: () => void;
 }
 
-export function Leaderboard({ hasSubmitted, userName, onBackToForm, onBackToWelcome }: LeaderboardProps) {
+export function Leaderboard({ hasSubmitted, userName, onBackToForm }: LeaderboardProps) {
   const { data: leaderboard, isLoading, refetch, isRefetching } = useQuery<LeaderboardEntry[]>({
     queryKey: ["/api/leaderboard"],
     refetchInterval: 30000, // Auto-refresh every 30 seconds
@@ -36,11 +35,7 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm, onBackToWelc
   };
 
   const handleBack = () => {
-    if (!userName) {
-      onBackToWelcome();
-    } else {
-      onBackToForm();
-    }
+    onBackToForm();
   };
 
   return (

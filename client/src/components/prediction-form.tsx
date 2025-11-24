@@ -14,21 +14,24 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { CheckCircle2, Trophy, AlertCircle, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { PlayerIdDialog } from "@/components/player-id-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 interface PredictionFormProps {
   userName: string;
+  setUserName: (name: string) => void;
   onSubmitSuccess: () => void;
   onViewLeaderboard: () => void;
 }
 
 const STORAGE_KEY = "derby-predictions-draft";
 
-export function PredictionForm({ userName, onSubmitSuccess, onViewLeaderboard }: PredictionFormProps) {
+export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewLeaderboard }: PredictionFormProps) {
   const { toast } = useToast();
   const [showPlayerIdDialog, setShowPlayerIdDialog] = useState(false);
   const [answeredCount, setAnsweredCount] = useState(0);
+  const [tempUserName, setTempUserName] = useState(userName);
   
   // Load saved progress from localStorage
   const getSavedProgress = () => {
@@ -151,172 +154,269 @@ export function PredictionForm({ userName, onSubmitSuccess, onViewLeaderboard }:
   };
 
   const progressPercentage = (answeredCount / 12) * 100;
+  const hasUserName = userName.trim() !== "";
+
+  const handleStartGame = () => {
+    if (tempUserName.trim()) {
+      setUserName(tempUserName.trim());
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header with progress */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
-                <Trophy className="w-6 h-6 text-accent" />
-                Derby Tahmin Oyunu
-              </h1>
-              <p className="text-sm text-muted-foreground mt-0.5">
-                Hoş geldin, <span className="font-medium text-foreground">{userName}</span>
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onViewLeaderboard}
-                data-testid="button-view-leaderboard"
-              >
-                Lider Tablosu
-              </Button>
-              <ThemeToggle />
-            </div>
+      {!hasUserName ? (
+        // Welcome Screen
+        <div className="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+          <div className="absolute top-4 right-4">
+            <ThemeToggle />
           </div>
           
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="font-medium text-foreground">İlerleme</span>
-              <Badge className="bg-accent hover:bg-accent/90 text-sm">{answeredCount}/12</Badge>
+          <div className="w-full max-w-md">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent/20 mb-4 border-2 border-accent">
+                <Trophy className="w-10 h-10 text-accent" />
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3">
+                Derby Tahmin Oyunu
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                12 soruyla maç sonucunu tahmin edin
+              </p>
             </div>
-            <Progress value={progressPercentage} className="h-2 bg-accent/20" data-testid="progress-bar" />
-          </div>
-        </div>
-      </div>
 
-      {/* Form content */}
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <Form {...form}>
-          <form className="space-y-6">
-            {QUESTIONS.map((question) => (
-              <Card
-                key={question.id}
-                id={`question-${question.field}`}
-                className="border-card-border"
-                data-testid={`card-question-${question.id}`}
-              >
-                <CardHeader className="space-y-1 pb-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge className="bg-accent/20 text-accent border border-accent font-semibold text-xs">
-                          {question.id}/12
-                        </Badge>
-                        {form.watch(question.field) && (
-                          <CheckCircle2 className="w-4 h-4 text-accent" data-testid={`check-${question.field}`} />
-                        )}
-                      </div>
-                      <CardTitle className="text-lg md:text-xl font-bold leading-tight">
-                        {question.question}
-                      </CardTitle>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <FormField
-                    control={form.control}
-                    name={question.field}
-                    render={({ field }) => (
-                      <FormItem>
-                        {question.type === "select" ? (
-                          <Select
-                            onValueChange={field.onChange}
-                            value={field.value as string || ""}
-                          >
-                            <FormControl>
-                              <SelectTrigger data-testid={`select-${question.field}`}>
-                                <SelectValue placeholder="Oyuncu seçin" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {question.options.map((option) => (
-                                <SelectItem
-                                  key={option.value}
-                                  value={option.value}
-                                  data-testid={`option-${question.field}-${option.value}`}
-                                >
-                                  {option.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        ) : (
-                          <FormControl>
-                            <RadioGroup
-                              onValueChange={field.onChange}
-                              value={field.value as string || ""}
-                              className="grid gap-3"
-                            >
-                              {question.options.map((option) => (
-                                <div key={option.value}>
-                                  <RadioGroupItem
-                                    value={option.value}
-                                    id={`${question.field}-${option.value}`}
-                                    className="peer sr-only"
-                                    data-testid={`radio-${question.field}-${option.value}`}
-                                  />
-                                  <Label
-                                    htmlFor={`${question.field}-${option.value}`}
-                                    data-testid={`label-${question.field}-${option.value}`}
-                                    className="flex items-center justify-center rounded-md border-2 border-muted bg-card px-4 py-3 hover-elevate active-elevate-2 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 cursor-pointer transition-all min-h-12"
-                                  >
-                                    <span className="font-medium text-base">
-                                      {option.label}
-                                    </span>
-                                  </Label>
-                                </div>
-                              ))}
-                            </RadioGroup>
-                          </FormControl>
-                        )}
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </CardContent>
-              </Card>
-            ))}
-
-            {/* Submit section */}
-            <Card className="border-primary/20 bg-primary/5">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <AlertCircle className="w-5 h-5 text-primary" />
-                  Tahminleri Gönder
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Tüm soruları cevapladınız mı? Tahminlerinizi göndermek için Oyuncu ID'nize ihtiyacımız var.
-                </p>
+            <Card className="border-card-border border-l-4 border-l-accent">
+              <CardHeader className="space-y-1 pb-4">
+                <CardTitle className="text-2xl font-bold text-accent">Hoş Geldiniz!</CardTitle>
+                <div className="text-base text-muted-foreground">
+                  Tahminlerinizi yapmak için adınızı girin
+                </div>
               </CardHeader>
               <CardContent>
-                <Button
-                  type="button"
-                  onClick={handleFormSubmit}
-                  className="w-full text-base font-semibold"
-                  size="lg"
-                  disabled={submitMutation.isPending}
-                  data-testid="button-submit-predictions"
-                >
-                  {submitMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Gönderiliyor...
-                    </>
-                  ) : (
-                    "Tahminleri Gönder"
-                  )}
-                </Button>
+                <form onSubmit={(e) => { e.preventDefault(); handleStartGame(); }} className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="userName" className="text-base font-medium">
+                      Adınız
+                    </Label>
+                    <Input
+                      id="userName"
+                      data-testid="input-username"
+                      type="text"
+                      placeholder="Örn: Ahmet Yılmaz"
+                      value={tempUserName}
+                      onChange={(e) => setTempUserName(e.target.value)}
+                      className="text-base"
+                      required
+                      autoFocus
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Button
+                      type="submit"
+                      data-testid="button-start-game"
+                      className="w-full text-base font-semibold"
+                      size="lg"
+                      disabled={!tempUserName.trim()}
+                    >
+                      Tahminlere Başla
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={onViewLeaderboard}
+                      data-testid="button-view-leaderboard"
+                      className="w-full text-base font-semibold"
+                      size="lg"
+                    >
+                      Lider Tablosunu Görüntüle
+                    </Button>
+                  </div>
+                </form>
+
+                <div className="mt-6 pt-6 border-t border-border">
+                  <div className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <AlertCircle className="flex-shrink-0 w-5 h-5 text-accent mt-0.5" />
+                    <p className="leading-relaxed">
+                      Tüm soruları cevapladıktan sonra tahminlerinizi göndermek için <strong className="text-foreground">Oyuncu ID'niz</strong> gerekecektir.
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
-          </form>
-        </Form>
-      </div>
+
+            <p className="text-center text-sm text-muted-foreground mt-6">
+              Tüm tahminler Firestore veritabanında güvenle saklanır
+            </p>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Header with progress */}
+          <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
+            <div className="max-w-2xl mx-auto px-4 py-4">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
+                    <Trophy className="w-6 h-6 text-accent" />
+                    Derby Tahmin Oyunu
+                  </h1>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    Hoş geldin, <span className="font-medium text-foreground">{userName}</span>
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onViewLeaderboard}
+                    data-testid="button-view-leaderboard"
+                  >
+                    Lider Tablosu
+                  </Button>
+                  <ThemeToggle />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="font-medium text-foreground">İlerleme</span>
+                  <Badge className="bg-accent hover:bg-accent/90 text-sm">{answeredCount}/12</Badge>
+                </div>
+                <Progress value={progressPercentage} className="h-2 bg-accent/20" data-testid="progress-bar" />
+              </div>
+            </div>
+          </div>
+
+          {/* Form content */}
+          <div className="max-w-2xl mx-auto px-4 py-8">
+            <Form {...form}>
+              <form className="space-y-6">
+                {QUESTIONS.map((question) => (
+                  <Card
+                    key={question.id}
+                    id={`question-${question.field}`}
+                    className="border-card-border"
+                    data-testid={`card-question-${question.id}`}
+                  >
+                    <CardHeader className="space-y-1 pb-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Badge className="bg-accent/20 text-accent border border-accent font-semibold text-xs">
+                              {question.id}/12
+                            </Badge>
+                            {form.watch(question.field) && (
+                              <CheckCircle2 className="w-4 h-4 text-accent" data-testid={`check-${question.field}`} />
+                            )}
+                          </div>
+                          <CardTitle className="text-lg md:text-xl font-bold leading-tight">
+                            {question.question}
+                          </CardTitle>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <FormField
+                        control={form.control}
+                        name={question.field}
+                        render={({ field }) => (
+                          <FormItem>
+                            {question.type === "select" ? (
+                              <Select
+                                onValueChange={field.onChange}
+                                value={field.value as string || ""}
+                              >
+                                <FormControl>
+                                  <SelectTrigger data-testid={`select-${question.field}`}>
+                                    <SelectValue placeholder="Oyuncu seçin" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {question.options.map((option) => (
+                                    <SelectItem
+                                      key={option.value}
+                                      value={option.value}
+                                      data-testid={`option-${question.field}-${option.value}`}
+                                    >
+                                      {option.label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            ) : (
+                              <FormControl>
+                                <RadioGroup
+                                  onValueChange={field.onChange}
+                                  value={field.value as string || ""}
+                                  className="grid gap-3"
+                                >
+                                  {question.options.map((option) => (
+                                    <div key={option.value}>
+                                      <RadioGroupItem
+                                        value={option.value}
+                                        id={`${question.field}-${option.value}`}
+                                        className="peer sr-only"
+                                        data-testid={`radio-${question.field}-${option.value}`}
+                                      />
+                                      <Label
+                                        htmlFor={`${question.field}-${option.value}`}
+                                        data-testid={`label-${question.field}-${option.value}`}
+                                        className="flex items-center justify-center rounded-md border-2 border-muted bg-card px-4 py-3 hover-elevate active-elevate-2 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 cursor-pointer transition-all min-h-12"
+                                      >
+                                        <span className="font-medium text-base">
+                                          {option.label}
+                                        </span>
+                                      </Label>
+                                    </div>
+                                  ))}
+                                </RadioGroup>
+                              </FormControl>
+                            )}
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                ))}
+
+
+                {/* Submit section */}
+                <Card className="border-primary/20 bg-primary/5">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <AlertCircle className="w-5 h-5 text-primary" />
+                      Tahminleri Gönder
+                    </CardTitle>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Tüm soruları cevapladınız mı? Tahminlerinizi göndermek için Oyuncu ID'nize ihtiyacımız var.
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <Button
+                      type="button"
+                      onClick={handleFormSubmit}
+                      className="w-full text-base font-semibold"
+                      size="lg"
+                      disabled={submitMutation.isPending}
+                      data-testid="button-submit-predictions"
+                    >
+                      {submitMutation.isPending ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Gönderiliyor...
+                        </>
+                      ) : (
+                        "Tahminleri Gönder"
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </form>
+            </Form>
+          </div>
+        </>
+      )}
 
       <PlayerIdDialog
         open={showPlayerIdDialog}
