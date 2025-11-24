@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { PlayerIdDialog } from "@/components/player-id-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
 import bannerImage from "@assets/Sign-Up_Sport_June_2025_September-970x250-Stack_Digital_1763998273969.webp";
+import logoImage from "@assets/superbahis-logo_1763999127745.png";
 
 interface PredictionFormProps {
   userName: string;
@@ -197,7 +198,15 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
             {/* Title and Description Section */}
             <div className="mb-8 relative text-center">
               <div className="mb-6">
-                <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
+                <div className="flex justify-center mb-4">
+                  <img 
+                    src={logoImage} 
+                    alt="Superbahis Logo" 
+                    className="max-w-[250px] h-auto"
+                    data-testid="logo-image"
+                  />
+                </div>
+                <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3 uppercase">
                   Süperbahis – 12 Soruluk Maç Tahmin Etkinliği (100.000 TL Ödüllü)
                 </h1>
                 <p className="text-base text-muted-foreground">
