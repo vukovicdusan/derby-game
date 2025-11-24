@@ -50,7 +50,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 id="userName"
                 data-testid="input-username-dialog"
                 type="text"
-                placeholder="Örn: Ahmet Yılmaz"
+                placeholder="Ad"
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 className="text-base"
@@ -71,7 +71,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 id="playerId"
                 data-testid="input-player-id"
                 type="text"
-                placeholder="Oyuncu ID'nizi girin"
+                placeholder="ID Numaranız"
                 value={playerId}
                 onChange={(e) => setPlayerId(e.target.value)}
                 className="text-base"
@@ -87,7 +87,6 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
           <DialogFooter className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-0">
             <Button
               type="button"
-              variant="outline"
               asChild
               data-testid="button-superbahis-signup"
             >
@@ -95,9 +94,10 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
             </Button>
             <Button
               type="submit"
+              variant="secondary"
               disabled={!userName.trim() || !playerId.trim() || isSubmitting}
               data-testid="button-confirm-player-id"
-              className="bg-[#ff3752] hover:bg-[#ff3752]/90"
+              className="bg-[#ff3752] hover:bg-[#ff3752]/90 border-0"
             >
               {isSubmitting ? (
                 <>
