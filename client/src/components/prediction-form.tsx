@@ -208,8 +208,11 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
             </div>
           </div>
 
+          {/* Background behind banner and header */}
+          <div className="fixed top-0 left-0 right-0 h-[280px] md:h-[320px] z-10 bg-background"></div>
+
           {/* Header with progress - positioned below banner with 1rem gap */}
-          <div className="sticky top-[201px] md:top-[241px] z-40 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
+          <div className="sticky top-[201px] md:top-[241px] z-40 bg-background border-b-2 border-accent">
             <div className="max-w-2xl mx-auto px-4 py-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
