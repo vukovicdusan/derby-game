@@ -106,19 +106,16 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
               <ArrowLeft className="w-4 h-4 mr-2 text-accent" />
               {userName ? "Tahminlere Dön" : "Geri Dön"}
             </Button>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => refetch()}
-                disabled={isRefetching}
-                data-testid="button-refresh-leaderboard"
-              >
-                <RefreshCw className={`w-4 h-4 mr-2 ${isRefetching ? "animate-spin" : ""}`} />
-                Yenile
-              </Button>
-              <ThemeToggle />
-            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => refetch()}
+              disabled={isRefetching}
+              data-testid="button-refresh-leaderboard"
+            >
+              <RefreshCw className={`w-4 h-4 mr-2 ${isRefetching ? "animate-spin" : ""}`} />
+              Yenile
+            </Button>
           </div>
         </div>
       </div>
