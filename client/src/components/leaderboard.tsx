@@ -71,7 +71,7 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
       <div className="fixed top-12 left-0 right-0 h-4 z-30 bg-background"></div>
 
       {/* Background behind banner and header */}
-      <div className="fixed top-0 left-0 right-0 h-[280px] md:h-[320px] z-9 bg-background"></div>
+      <div className="fixed top-0 left-0 right-0 h-[280px] md:h-[320px] z-10 bg-background"></div>
 
       {/* Fixed Banner - centered with max width, positioned below top nav and gap */}
       <div className="fixed top-16 left-0 right-0 z-20 flex justify-center">
