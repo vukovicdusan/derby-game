@@ -168,8 +168,34 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
   return (
     <div className="min-h-screen bg-background">
       <>
-          {/* Fixed Banner - centered with max width */}
-          <div className="fixed top-0 left-0 right-0 z-20 flex justify-center">
+          {/* Top Navigation Header */}
+          <div className="fixed top-0 left-0 right-0 z-50 bg-background border-b-2 border-accent">
+            <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+              <Button
+                variant="ghost"
+                size="sm"
+                asChild
+                data-testid="button-lider-tablosu"
+              >
+                <a href="#">Lider Tablosu</a>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                data-testid="button-superbahis-uye-ol"
+              >
+                <a href="#">Superbahis'e Üye Ol</a>
+              </Button>
+              <ThemeToggle />
+            </div>
+          </div>
+
+          {/* 1rem gap between top nav and banner */}
+          <div className="fixed top-12 left-0 right-0 h-4 z-30 bg-background"></div>
+
+          {/* Fixed Banner - centered with max width, positioned below top nav and gap */}
+          <div className="fixed top-16 left-0 right-0 z-20 flex justify-center">
             <div className="w-full max-w-[700px]">
               <img 
                 src={bannerImage} 
@@ -180,11 +206,8 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
             </div>
           </div>
 
-          {/* Gap filler with background */}
-          <div className="fixed top-[61px] md:top-[81px] left-0 right-0 h-4 z-10 bg-background/95 backdrop-blur-sm"></div>
-
           {/* Header with progress - positioned below banner with 1rem gap */}
-          <div className="sticky top-[141px] md:top-[171px] z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
+          <div className="sticky top-[201px] md:top-[241px] z-40 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
             <div className="max-w-2xl mx-auto px-4 py-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
@@ -197,7 +220,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
           </div>
 
           {/* Form content - adjusted for fixed banner and sticky header */}
-          <div className="max-w-2xl mx-auto px-4 py-8 pt-[186px] md:pt-[216px]">
+          <div className="max-w-2xl mx-auto px-4 py-8 pt-[256px] md:pt-[296px]">
             {/* Title and Description Section */}
             <div className="mb-8 relative text-center">
               <div className="mb-6">
@@ -215,17 +238,6 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                 <p className="text-base text-muted-foreground">
                   Katılım Şartı: Son 7 günde minimum 1.000 TL yatırım yapan kullanıcılar katılabilir.
                 </p>
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onViewLeaderboard}
-                  data-testid="button-view-leaderboard"
-                >
-                  Lider Tablosu
-                </Button>
-                <ThemeToggle />
               </div>
             </div>
 

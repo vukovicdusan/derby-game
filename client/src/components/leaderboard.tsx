@@ -42,11 +42,37 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
-      {/* Background behind banner and header */}
-      <div className="fixed top-0 left-0 right-0 h-[200px] md:h-[240px] z-9 bg-background"></div>
+      {/* Top Navigation Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background border-b-2 border-accent">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            data-testid="button-lider-tablosu"
+          >
+            <a href="#">Lider Tablosu</a>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            asChild
+            data-testid="button-superbahis-uye-ol"
+          >
+            <a href="#">Superbahis'e Üye Ol</a>
+          </Button>
+          <ThemeToggle />
+        </div>
+      </div>
 
-      {/* Fixed Banner - centered with max width */}
-      <div className="fixed top-0 left-0 right-0 z-20 flex justify-center">
+      {/* 1rem gap between top nav and banner */}
+      <div className="fixed top-12 left-0 right-0 h-4 z-30 bg-background"></div>
+
+      {/* Background behind banner and header */}
+      <div className="fixed top-0 left-0 right-0 h-[280px] md:h-[320px] z-9 bg-background"></div>
+
+      {/* Fixed Banner - centered with max width, positioned below top nav and gap */}
+      <div className="fixed top-16 left-0 right-0 z-20 flex justify-center">
         <div className="w-full max-w-[700px]">
           <img 
             src={bannerImage} 
@@ -57,11 +83,8 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
         </div>
       </div>
 
-      {/* Gap filler with background */}
-      <div className="fixed top-[61px] md:top-[81px] left-0 right-0 h-4 z-10 bg-background/95 backdrop-blur-sm"></div>
-
       {/* Header with progress - positioned below banner with 1rem gap */}
-      <div className="sticky top-[141px] md:top-[171px] z-50 bg-background border-b-2 border-accent">
+      <div className="sticky top-[201px] md:top-[241px] z-40 bg-background border-b-2 border-accent">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Button
@@ -91,7 +114,7 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8 pt-[186px] md:pt-[216px]">
+      <div className="max-w-4xl mx-auto px-4 py-8 pt-[256px] md:pt-[296px]">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <img 
