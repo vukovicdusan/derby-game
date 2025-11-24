@@ -17,6 +17,7 @@ import { CheckCircle2, Trophy, AlertCircle, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { PlayerIdDialog } from "@/components/player-id-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
+import bannerImage from "@assets/Sign-Up_Sport_June_2025_September-970x250-Stack_Digital_1763998273969.webp";
 
 interface PredictionFormProps {
   userName: string;
@@ -166,8 +167,18 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
   return (
     <div className="min-h-screen bg-background">
       <>
-          {/* Header with progress */}
-          <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
+          {/* Fixed Banner */}
+          <div className="fixed top-0 left-0 right-0 z-20 w-full">
+            <img 
+              src={bannerImage} 
+              alt="Sports Bonus Banner" 
+              className="w-full h-auto object-cover"
+              data-testid="banner-image"
+            />
+          </div>
+
+          {/* Header with progress - adjusted for banner */}
+          <div className="sticky top-[61px] md:top-[81px] z-10 bg-background/95 backdrop-blur-sm border-b-2 border-accent">
             <div className="max-w-2xl mx-auto px-4 py-4">
               <div className="flex items-center justify-between mb-3">
                 <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
@@ -197,8 +208,8 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
             </div>
           </div>
 
-          {/* Form content */}
-          <div className="max-w-2xl mx-auto px-4 py-8">
+          {/* Form content - adjusted for fixed banner and sticky header */}
+          <div className="max-w-2xl mx-auto px-4 py-8 pt-[140px] md:pt-[170px]">
             <Form {...form}>
               <form className="space-y-6">
                 {QUESTIONS.map((question) => (
