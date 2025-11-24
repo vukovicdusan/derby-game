@@ -176,10 +176,10 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                 <Button
                   variant="outline"
                   size="sm"
-                  asChild
+                  onClick={onViewLeaderboard}
                   data-testid="button-lider-tablosu"
                 >
-                  <a href="#">Lider Tablosu</a>
+                  Lider Tablosu
                 </Button>
                 <Button
                   size="sm"
