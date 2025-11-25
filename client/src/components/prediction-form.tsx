@@ -173,7 +173,18 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
           {/* Top Navigation Header */}
           <div className="fixed top-0 left-0 right-0 z-50 bg-background">
             <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-              <ThemeToggle />
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={onViewLeaderboard}
+                  data-testid="button-leaderboard-nav"
+                  className="h-9 w-9"
+                >
+                  <Trophy className="w-4 h-4" />
+                </Button>
+              </div>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
