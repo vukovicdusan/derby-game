@@ -59,13 +59,12 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
           <ThemeToggle />
           <div className="flex items-center gap-2">
             <Button
-              variant="ghost"
-              size="icon"
+              variant="outline"
+              size="sm"
               onClick={() => setShowRulesDialog(true)}
               data-testid="button-kurallar-leaderboard"
-              className="h-9 w-9"
             >
-              <List className="w-4 h-4" />
+              Kurallar ve Katılım Şartları
             </Button>
             <Button
               size="sm"
