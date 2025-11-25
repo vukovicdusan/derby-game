@@ -17,6 +17,7 @@ import { CheckCircle2, Trophy, AlertCircle, Loader2, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { PlayerIdDialog } from "@/components/player-id-dialog";
 import { RulesDialog } from "@/components/rules-dialog";
+import { SubmissionSuccessDialog } from "@/components/submission-success-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
 import bannerImage from "@assets/Sign-Up_Sport_June_2025_September-970x250-Stack_Digital_1763998273969.webp";
 import logoImage from "@assets/superbahis-logo_1763999127745.png";
@@ -34,6 +35,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
   const { toast } = useToast();
   const [showPlayerIdDialog, setShowPlayerIdDialog] = useState(false);
   const [showRulesDialog, setShowRulesDialog] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [answeredCount, setAnsweredCount] = useState(0);
   const [tempUserName, setTempUserName] = useState(userName);
   
@@ -67,12 +69,8 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
       localStorage.removeItem(STORAGE_KEY);
       // Invalidate leaderboard cache to trigger immediate update
       queryClient.invalidateQueries({ queryKey: ["/api/leaderboard"] });
-      toast({
-        title: "Tahminler gönderildi!",
-        description: "Tahminleriniz başarıyla kaydedildi. Lider tablosunda yerinizi görebilirsiniz.",
-      });
       setShowPlayerIdDialog(false);
-      onSubmitSuccess();
+      setShowSuccessDialog(true);
     },
     onError: (error: Error) => {
       setShowPlayerIdDialog(false);
@@ -411,6 +409,15 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
       <RulesDialog 
         open={showRulesDialog}
         onOpenChange={setShowRulesDialog}
+      />
+      <SubmissionSuccessDialog
+        open={showSuccessDialog}
+        onOpenChange={(open) => {
+          setShowSuccessDialog(open);
+          if (!open) {
+            onSubmitSuccess();
+          }
+        }}
       />
     </div>
   );
