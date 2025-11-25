@@ -1,7 +1,5 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 interface RulesDialogProps {
   open: boolean;
@@ -12,16 +10,8 @@ export function RulesDialog({ open, onOpenChange }: RulesDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh]">
-        <DialogHeader className="flex flex-row items-center justify-between">
+        <DialogHeader>
           <DialogTitle className="text-xl font-bold">Kurallar ve Katılım Şartları</DialogTitle>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onOpenChange(false)}
-            className="h-6 w-6"
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </DialogHeader>
         
         <ScrollArea className="h-[calc(90vh-120px)] pr-4">
