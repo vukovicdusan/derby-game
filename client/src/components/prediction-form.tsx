@@ -13,9 +13,10 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { CheckCircle2, Trophy, AlertCircle, Loader2 } from "lucide-react";
+import { CheckCircle2, Trophy, AlertCircle, Loader2, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { PlayerIdDialog } from "@/components/player-id-dialog";
+import { RulesDialog } from "@/components/rules-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
 import bannerImage from "@assets/Sign-Up_Sport_June_2025_September-970x250-Stack_Digital_1763998273969.webp";
 import logoImage from "@assets/superbahis-logo_1763999127745.png";
@@ -32,6 +33,7 @@ const STORAGE_KEY = "derby-predictions-draft";
 export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewLeaderboard }: PredictionFormProps) {
   const { toast } = useToast();
   const [showPlayerIdDialog, setShowPlayerIdDialog] = useState(false);
+  const [showRulesDialog, setShowRulesDialog] = useState(false);
   const [answeredCount, setAnsweredCount] = useState(0);
   const [tempUserName, setTempUserName] = useState(userName);
   
@@ -176,10 +178,10 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={onViewLeaderboard}
-                  data-testid="button-lider-tablosu"
+                  onClick={() => setShowRulesDialog(true)}
+                  data-testid="button-kurallar"
                 >
-                  Lider Tablosu
+                  Kurallar ve Katılım Şartları
                 </Button>
                 <Button
                   size="sm"
@@ -249,7 +251,9 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                     Etkinliğe katılmak için Süperbahis üyesi olmanız gerekmektedir.
                   </p>
                   <p>
-                    Üye değilseniz <a href="https://tinyurl.com/wrvu447a" className="text-primary hover:underline font-semibold">buradan kayıt olabilirsiniz</a>.
+                    <a href="https://tinyurl.com/wrvu447a" className="hover:underline font-semibold" style={{ color: "#009DFF" }}>
+                      Üye değilseniz buradan kayıt olabilirsiniz.
+                    </a>
                   </p>
                   <div className="pt-2 space-y-1 text-muted-foreground text-xs md:text-sm">
                     <p className="font-semibold">Ödüller:</p>
@@ -392,6 +396,10 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
         onOpenChange={setShowPlayerIdDialog}
         onSubmit={handlePlayerIdSubmit}
         isSubmitting={submitMutation.isPending}
+      />
+      <RulesDialog 
+        open={showRulesDialog}
+        onOpenChange={setShowRulesDialog}
       />
     </div>
   );

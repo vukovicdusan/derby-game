@@ -1,13 +1,15 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { type LeaderboardEntry } from "@shared/schema";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Trophy, Medal, Award, ArrowLeft, RefreshCw, Users } from "lucide-react";
+import { Trophy, Medal, Award, ArrowLeft, RefreshCw, Users, List } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { RulesDialog } from "@/components/rules-dialog";
 import bannerImage from "@assets/Sign-Up_Sport_June_2025_September-970x250-Stack_Digital_1763998273969.webp";
 import logoImage from "@assets/superbahis-logo_1763999127745.png";
 
@@ -18,6 +20,7 @@ interface LeaderboardProps {
 }
 
 export function Leaderboard({ hasSubmitted, userName, onBackToForm }: LeaderboardProps) {
+  const [showRulesDialog, setShowRulesDialog] = useState(false);
   const { data: leaderboard, isLoading, refetch, isRefetching } = useQuery<LeaderboardEntry[]>({
     queryKey: ["/api/leaderboard"],
     refetchInterval: 30000, // Auto-refresh every 30 seconds
@@ -56,12 +59,13 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
           <ThemeToggle />
           <div className="flex items-center gap-2">
             <Button
-              variant="outline"
-              size="sm"
-              asChild
-              data-testid="button-lider-tablosu"
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowRulesDialog(true)}
+              data-testid="button-kurallar-leaderboard"
+              className="h-9 w-9"
             >
-              <a href="#">Lider Tablosu</a>
+              <List className="w-4 h-4" />
             </Button>
             <Button
               size="sm"
@@ -265,6 +269,10 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
           Lider tablosu otomatik olarak her 30 saniyede bir güncellenir
         </p>
       </div>
+      <RulesDialog 
+        open={showRulesDialog}
+        onOpenChange={setShowRulesDialog}
+      />
     </div>
   );
 }
