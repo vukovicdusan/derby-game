@@ -238,11 +238,24 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                   />
                 </div>
                 <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3 uppercase">
-                  Süperbahis – 12 Soruluk Maç Tahmin Etkinliği (100.000 TL Ödüllü)
+                  DERBY ÖZEL <br />
+                  TAHMİN YARIŞMASI
                 </h1>
-                <p className="text-base text-muted-foreground">
-                  Katılım Şartı: Son 7 günde minimum 1.000 TL yatırım yapan kullanıcılar katılabilir.
-                </p>
+                <div className="space-y-3 text-sm md:text-base text-foreground">
+                  <p>
+                    Katılım şartı: Son 7 gün içinde minimum 1.000 TL yatırım yapmış kullanıcılar katılabilir.
+                  </p>
+                  <p>
+                    Etkinliğe katılmak için Süperbahis üyesi olmanız gerekmektedir.
+                  </p>
+                  <p>
+                    Üye değilseniz <a href="https://tinyurl.com/wrvu447a" className="text-primary hover:underline font-semibold">buradan kayıt olabilirsiniz</a>.
+                  </p>
+                  <div className="pt-2 space-y-1 text-muted-foreground text-xs md:text-sm">
+                    <p className="font-semibold">Ödüller:</p>
+                    <p>1.: 50.000 TL / 2.: 20.000 TL / 3.: 15.000 TL / 4.: 5.000 TL / 5.–10.: Kişi başı 1.000 TL / 11.–20.: Kişi başı 500 TL</p>
+                  </div>
+                </div>
               </div>
             </div>
 
