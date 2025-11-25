@@ -85,20 +85,12 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
             </div>
           </div>
           
-          <DialogFooter className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-0">
-            <Button
-              type="button"
-              asChild
-              data-testid="button-superbahis-signup"
-            >
-              <a href="#">Süperbahis'e Üye Ol</a>
-            </Button>
+          <div className="flex flex-col items-center gap-4 pt-4">
             <Button
               type="submit"
-              variant="secondary"
               disabled={!userName.trim() || !playerId.trim() || isSubmitting}
               data-testid="button-confirm-player-id"
-              className="bg-[#ff3752] hover:bg-[#ff3752]/90 border-0"
+              className="bg-[#009DFF] hover:bg-[#0080CC] w-full sm:w-auto"
             >
               {isSubmitting ? (
                 <>
@@ -109,7 +101,17 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 "Etkinliğe Katıl"
               )}
             </Button>
-          </DialogFooter>
+            <p className="text-sm text-muted-foreground text-center">
+              Süperbahis hesabınız yoksa{" "}
+              <a 
+                href="https://tinyurl.com/wrvu447a" 
+                className="hover:underline font-semibold" 
+                style={{ color: "#009DFF" }}
+              >
+                buradan üye olabilirsiniz.
+              </a>
+            </p>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
