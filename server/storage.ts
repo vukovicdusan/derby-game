@@ -132,30 +132,32 @@ export class FirestoreStorage implements IStorage {
     let score = 0;
     let totalCorrect = 0;
 
+    // Point values for each question (variable points)
+    const questionPoints: Record<string, number> = {
+      matchResult: 10,
+      totalGoals: 10,
+      firstGoalTeam: 5,
+      firstGoalTime: 15,
+      halfTimeResult: 5,
+      totalCards: 10,
+      varDecision: 5,
+      totalCorners: 10,
+      redCard: 10,
+      topShooter: 25,
+      firstYellowCard: 25,
+      firstGoalScorer: 20,
+    };
+
     if (actualResultsDoc.exists) {
       const actualResults = actualResultsDoc.data();
       
-      // Calculate score based on correct predictions
-      // Each correct answer = 10 points
-      const fields = [
-        "matchResult",
-        "totalGoals",
-        "firstGoalTeam",
-        "firstGoalTime",
-        "halfTimeResult",
-        "totalCorners",
-        "varDecision",
-        "redCard",
-        "topShooter",
-        "manOfMatch",
-        "firstSubstitution",
-        "totalCards",
-      ];
+      // Calculate score based on correct predictions with variable points
+      const fields = Object.keys(questionPoints);
 
       if (actualResults) {
         fields.forEach((field) => {
           if (prediction[field] && actualResults[field] && prediction[field] === actualResults[field]) {
-            score += 10;
+            score += questionPoints[field];
             totalCorrect += 1;
           }
         });
@@ -204,20 +206,24 @@ export class FirestoreStorage implements IStorage {
     }
 
     const correctAnswers = answersDoc.data() || {};
-    const fields = [
-      "matchResult",
-      "totalGoals",
-      "firstGoalTeam",
-      "firstGoalTime",
-      "halfTimeResult",
-      "totalCorners",
-      "varDecision",
-      "redCard",
-      "topShooter",
-      "manOfMatch",
-      "firstSubstitution",
-      "totalCards",
-    ];
+    
+    // Point values for each question (variable points)
+    const questionPoints: Record<string, number> = {
+      matchResult: 10,
+      totalGoals: 10,
+      firstGoalTeam: 5,
+      firstGoalTime: 15,
+      halfTimeResult: 5,
+      totalCards: 10,
+      varDecision: 5,
+      totalCorners: 10,
+      redCard: 10,
+      topShooter: 25,
+      firstYellowCard: 25,
+      firstGoalScorer: 20,
+    };
+    
+    const fields = Object.keys(questionPoints);
 
     let updatedCount = 0;
 
@@ -227,10 +233,10 @@ export class FirestoreStorage implements IStorage {
       let score = 0;
       let totalCorrect = 0;
 
-      // Compare each field
+      // Compare each field with variable points
       fields.forEach((field) => {
         if (prediction[field] && correctAnswers[field] && prediction[field] === correctAnswers[field]) {
-          score += 10;
+          score += questionPoints[field];
           totalCorrect += 1;
         }
       });
