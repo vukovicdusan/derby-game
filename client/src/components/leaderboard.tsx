@@ -126,21 +126,39 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 pt-[256px] md:pt-[296px]">
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <img 
-              src={logoImage} 
-              alt="Superbahis Logo" 
-              className="max-w-[250px] h-auto"
-              data-testid="logo-image"
-            />
+        {/* Title and Description Section */}
+        <div className="mb-8 relative text-center">
+          <div className="mb-6">
+            <div className="flex justify-center mb-4">
+              <img 
+                src={logoImage} 
+                alt="Superbahis Logo" 
+                className="max-w-[250px] h-auto"
+                data-testid="logo-image"
+              />
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3 uppercase">
+              DERBY ÖZEL <br />
+              TAHMİN YARIŞMASI
+            </h1>
+            <div className="space-y-3 text-sm md:text-base text-foreground">
+              <p>
+                Katılım şartı: Son 7 gün içinde minimum 1.000 TL yatırım yapmış kullanıcılar katılabilir.
+              </p>
+              <p>
+                Etkinliğe katılmak için Süperbahis üyesi olmanız gerekmektedir.
+              </p>
+              <p>
+                <a href="https://tinyurl.com/wrvu447a" className="hover:underline font-semibold" style={{ color: "#009DFF" }}>
+                  Üye değilseniz buradan kayıt olabilirsiniz.
+                </a>
+              </p>
+              <div className="pt-2 space-y-1 text-muted-foreground text-xs md:text-sm">
+                <p className="font-semibold">Ödüller:</p>
+                <p>1.: 50.000 TL / 2.: 20.000 TL / 3.: 15.000 TL / 4.: 5.000 TL / 5.–10.: Kişi başı 1.000 TL / 11.–20.: Kişi başı 500 TL</p>
+              </div>
+            </div>
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3 uppercase">
-            Süperbahis – 12 Soruluk Maç Tahmin Etkinliği (100.000 TL Ödüllü)
-          </h1>
-          <p className="text-lg text-muted-foreground mb-4">
-            En yüksek skorlara sahip tahmin ustalarımız
-          </p>
         </div>
 
         {hasSubmitted && (
