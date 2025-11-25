@@ -81,6 +81,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin: Get current match answers
+  app.get("/api/admin/answers", async (req, res) => {
+    try {
+      const answers = await storage.getMatchAnswers();
+      res.json({ answers: answers || null });
+    } catch (error: any) {
+      console.error("Error getting answers:", error);
+      res.status(500).json({
+        error: "Cevaplar alınırken bir hata oluştu.",
+      });
+    }
+  });
+
   // Admin: Set correct match answers
   app.post("/api/admin/answers", async (req, res) => {
     try {
@@ -103,13 +116,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         "firstGoalTeam",
         "firstGoalTime",
         "halfTimeResult",
-        "totalCorners",
+        "totalCards",
         "varDecision",
+        "totalCorners",
         "redCard",
         "topShooter",
-        "manOfMatch",
-        "firstSubstitution",
-        "totalCards",
+        "firstYellowCard",
+        "firstGoalScorer",
       ];
 
       const missingFields = requiredFields.filter(field => !(field in answers));

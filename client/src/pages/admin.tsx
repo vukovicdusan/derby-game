@@ -6,11 +6,26 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { Download } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
+import { TOP_SHOOTER_OPTIONS, FIRST_YELLOW_CARD_OPTIONS, FIRST_GOAL_SCORER_OPTIONS } from "@shared/schema";
 
-// Fixed credentials
 const ADMIN_USERNAME = "admin";
 const ADMIN_PASSWORD = "derby2024";
+
+const EMPTY_ANSWERS = {
+  matchResult: "",
+  totalGoals: "",
+  firstGoalTeam: "",
+  firstGoalTime: "",
+  halfTimeResult: "",
+  totalCards: "",
+  varDecision: "",
+  totalCorners: "",
+  redCard: "",
+  topShooter: "",
+  firstYellowCard: "",
+  firstGoalScorer: "",
+};
 
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,23 +33,10 @@ export default function AdminDashboard() {
   const [password, setPassword] = useState("");
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingAnswers, setIsLoadingAnswers] = useState(false);
   const [applicants, setApplicants] = useState<any[]>([]);
   const [isLoadingApplicants, setIsLoadingApplicants] = useState(false);
-
-  const [answers, setAnswers] = useState({
-    matchResult: "",
-    totalGoals: "",
-    firstGoalTeam: "",
-    firstGoalTime: "",
-    halfTimeResult: "",
-    totalCorners: "",
-    varDecision: "",
-    redCard: "",
-    topShooter: "",
-    manOfMatch: "",
-    firstSubstitution: "",
-    totalCards: "",
-  });
+  const [answers, setAnswers] = useState(EMPTY_ANSWERS);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,27 +60,43 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setApplicants([]);
-    setAnswers({
-      matchResult: "",
-      totalGoals: "",
-      firstGoalTeam: "",
-      firstGoalTime: "",
-      halfTimeResult: "",
-      totalCorners: "",
-      varDecision: "",
-      redCard: "",
-      topShooter: "",
-      manOfMatch: "",
-      firstSubstitution: "",
-      totalCards: "",
-    });
+    setAnswers(EMPTY_ANSWERS);
   };
 
   useEffect(() => {
     if (isLoggedIn) {
       fetchApplicants();
+      fetchSavedAnswers();
     }
   }, [isLoggedIn]);
+
+  const fetchSavedAnswers = async () => {
+    setIsLoadingAnswers(true);
+    try {
+      const response = await apiRequest("GET", "/api/admin/answers");
+      const data = await response.json();
+      if (data.answers) {
+        setAnswers({
+          matchResult: data.answers.matchResult || "",
+          totalGoals: data.answers.totalGoals || "",
+          firstGoalTeam: data.answers.firstGoalTeam || "",
+          firstGoalTime: data.answers.firstGoalTime || "",
+          halfTimeResult: data.answers.halfTimeResult || "",
+          totalCards: data.answers.totalCards || "",
+          varDecision: data.answers.varDecision || "",
+          totalCorners: data.answers.totalCorners || "",
+          redCard: data.answers.redCard || "",
+          topShooter: data.answers.topShooter || "",
+          firstYellowCard: data.answers.firstYellowCard || "",
+          firstGoalScorer: data.answers.firstGoalScorer || "",
+        });
+      }
+    } catch (error: any) {
+      console.error("Error fetching saved answers:", error);
+    } finally {
+      setIsLoadingAnswers(false);
+    }
+  };
 
   const fetchApplicants = async () => {
     setIsLoadingApplicants(true);
@@ -109,7 +127,6 @@ export default function AdminDashboard() {
       return;
     }
 
-    // Prepare CSV headers and data
     const headers = [
       "Ad Soyadı",
       "Oyuncu ID",
@@ -119,13 +136,13 @@ export default function AdminDashboard() {
       "İlk Golü Kimin",
       "İlk Gol Zamanı",
       "İlk Yarı Sonucu",
-      "Toplam Köşe",
+      "Toplam Kart",
       "VAR Kararı",
+      "Toplam Korner",
       "Kırmızı Kart",
       "En Çok Şut",
-      "Maçın Adamı",
-      "İlk Oyuncu Değişikliği",
-      "Toplam Kart",
+      "İlk Sarı Kart",
+      "İlk Golü Atan",
     ];
 
     const rows = applicants.map((app) => [
@@ -137,22 +154,20 @@ export default function AdminDashboard() {
       app.firstGoalTeam || "",
       app.firstGoalTime || "",
       app.halfTimeResult || "",
-      app.totalCorners || "",
+      app.totalCards || "",
       app.varDecision || "",
+      app.totalCorners || "",
       app.redCard || "",
       app.topShooter || "",
-      app.manOfMatch || "",
-      app.firstSubstitution || "",
-      app.totalCards || "",
+      app.firstYellowCard || "",
+      app.firstGoalScorer || "",
     ]);
 
-    // Create CSV content
     const csvContent = [
       headers.join(","),
       ...rows.map(row => row.map(cell => `"${cell}"`).join(",")),
     ].join("\n");
 
-    // Download
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -173,22 +188,7 @@ export default function AdminDashboard() {
     setIsLoading(true);
     try {
       await apiRequest("POST", "/api/admin/reset-answers", {});
-      
-      // Clear the form
-      setAnswers({
-        matchResult: "",
-        totalGoals: "",
-        firstGoalTeam: "",
-        firstGoalTime: "",
-        halfTimeResult: "",
-        totalCorners: "",
-        varDecision: "",
-        redCard: "",
-        topShooter: "",
-        manOfMatch: "",
-        firstSubstitution: "",
-        totalCards: "",
-      });
+      setAnswers(EMPTY_ANSWERS);
 
       toast({
         title: "Başarılı",
@@ -213,7 +213,6 @@ export default function AdminDashboard() {
   };
 
   const handleSubmitAnswers = async () => {
-    // Validate all fields are filled
     const allFilled = Object.values(answers).every(v => v !== "");
     if (!allFilled) {
       toast({
@@ -226,10 +225,7 @@ export default function AdminDashboard() {
 
     setIsLoading(true);
     try {
-      // Save answers
       await apiRequest("POST", "/api/admin/answers", answers);
-      
-      // Recalculate scores
       await apiRequest("POST", "/api/admin/recalculate-scores", {});
 
       toast({
@@ -289,11 +285,6 @@ export default function AdminDashboard() {
     );
   }
 
-  const playerOptions = [
-    "Oyuncu 1", "Oyuncu 2", "Oyuncu 3", "Oyuncu 4", "Oyuncu 5",
-    "Oyuncu 6", "Oyuncu 7", "Oyuncu 8", "Oyuncu 9", "Oyuncu 10",
-  ];
-
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-6xl mx-auto space-y-6">
@@ -310,208 +301,222 @@ export default function AdminDashboard() {
         <Card>
           <CardHeader>
             <CardTitle>Maç Cevapları</CardTitle>
-            <CardDescription>Tüm 12 soruya cevap verin</CardDescription>
+            <CardDescription>
+              Tüm 12 soruya cevap verin
+              {isLoadingAnswers && <span className="ml-2 text-muted-foreground">(Yükleniyor...)</span>}
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
-              {/* Match Result */}
-              <div className="space-y-2">
-                <Label htmlFor="matchResult">1. Maç Sonucu</Label>
-                <Select value={answers.matchResult} onValueChange={(v) => handleAnswerChange("matchResult", v)}>
-                  <SelectTrigger id="matchResult" data-testid="select-matchResult">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="home">Ev sahibi</SelectItem>
-                    <SelectItem value="away">Deplasman</SelectItem>
-                    <SelectItem value="draw">Berabere</SelectItem>
-                  </SelectContent>
-                </Select>
+            {isLoadingAnswers ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="w-6 h-6 animate-spin mr-2" />
+                <span>Kayıtlı cevaplar yükleniyor...</span>
               </div>
+            ) : (
+              <div className="space-y-6">
+                {/* 1. Match Result - 10 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="matchResult">1. Derbinin sonucu ne olur? (10 puan)</Label>
+                  <Select value={answers.matchResult} onValueChange={(v) => handleAnswerChange("matchResult", v)}>
+                    <SelectTrigger id="matchResult" data-testid="select-matchResult">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fenerbahce">Fenerbahçe kazanır</SelectItem>
+                      <SelectItem value="draw">Berabere biter</SelectItem>
+                      <SelectItem value="galatasaray">Galatasaray kazanır</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Total Goals */}
-              <div className="space-y-2">
-                <Label htmlFor="totalGoals">2. Toplam Gol</Label>
-                <Select value={answers.totalGoals} onValueChange={(v) => handleAnswerChange("totalGoals", v)}>
-                  <SelectTrigger id="totalGoals" data-testid="select-totalGoals">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="0-2">0–2</SelectItem>
-                    <SelectItem value="3-4">3–4</SelectItem>
-                    <SelectItem value="5+">5+</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 2. Total Goals - 10 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="totalGoals">2. Derbide toplam kaç gol olur? (10 puan)</Label>
+                  <Select value={answers.totalGoals} onValueChange={(v) => handleAnswerChange("totalGoals", v)}>
+                    <SelectTrigger id="totalGoals" data-testid="select-totalGoals">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0-2">0-2</SelectItem>
+                      <SelectItem value="3-4">3-4</SelectItem>
+                      <SelectItem value="5+">5+</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* First Goal Team */}
-              <div className="space-y-2">
-                <Label htmlFor="firstGoalTeam">3. İlk Golü Kimin Atacağı</Label>
-                <Select value={answers.firstGoalTeam} onValueChange={(v) => handleAnswerChange("firstGoalTeam", v)}>
-                  <SelectTrigger id="firstGoalTeam" data-testid="select-firstGoalTeam">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="home">Ev sahibi</SelectItem>
-                    <SelectItem value="away">Deplasman</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 3. First Goal Team - 5 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="firstGoalTeam">3. İlk golü hangi takım atar? (5 puan)</Label>
+                  <Select value={answers.firstGoalTeam} onValueChange={(v) => handleAnswerChange("firstGoalTeam", v)}>
+                    <SelectTrigger id="firstGoalTeam" data-testid="select-firstGoalTeam">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fenerbahce">Fenerbahçe</SelectItem>
+                      <SelectItem value="galatasaray">Galatasaray</SelectItem>
+                      <SelectItem value="noGoal">Gol olmaz</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* First Goal Time */}
-              <div className="space-y-2">
-                <Label htmlFor="firstGoalTime">4. İlk Gol Zamanı</Label>
-                <Select value={answers.firstGoalTime} onValueChange={(v) => handleAnswerChange("firstGoalTime", v)}>
-                  <SelectTrigger id="firstGoalTime" data-testid="select-firstGoalTime">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="0-15">0–15 dakika</SelectItem>
-                    <SelectItem value="16-30">16–30 dakika</SelectItem>
-                    <SelectItem value="31-45">31–45 dakika</SelectItem>
-                    <SelectItem value="46-60">46–60 dakika</SelectItem>
-                    <SelectItem value="61-75">61–75 dakika</SelectItem>
-                    <SelectItem value="76-90">76–90 dakika</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 4. First Goal Time - 15 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="firstGoalTime">4. İlk gol hangi dakikada gelir? (15 puan)</Label>
+                  <Select value={answers.firstGoalTime} onValueChange={(v) => handleAnswerChange("firstGoalTime", v)}>
+                    <SelectTrigger id="firstGoalTime" data-testid="select-firstGoalTime">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0-15">0-15</SelectItem>
+                      <SelectItem value="16-30">16-30</SelectItem>
+                      <SelectItem value="31-45">31-45</SelectItem>
+                      <SelectItem value="46-60">46-60</SelectItem>
+                      <SelectItem value="61-75">61-75</SelectItem>
+                      <SelectItem value="76-90">76-90</SelectItem>
+                      <SelectItem value="noGoal">Gol olmaz</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Half Time Result */}
-              <div className="space-y-2">
-                <Label htmlFor="halfTimeResult">5. İlk Yarı Sonucu</Label>
-                <Select value={answers.halfTimeResult} onValueChange={(v) => handleAnswerChange("halfTimeResult", v)}>
-                  <SelectTrigger id="halfTimeResult" data-testid="select-halfTimeResult">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="home">Ev sahibi</SelectItem>
-                    <SelectItem value="away">Deplasman</SelectItem>
-                    <SelectItem value="draw">Berabere</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 5. Half Time Result - 5 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="halfTimeResult">5. İlk yarı sonucu ne olur? (5 puan)</Label>
+                  <Select value={answers.halfTimeResult} onValueChange={(v) => handleAnswerChange("halfTimeResult", v)}>
+                    <SelectTrigger id="halfTimeResult" data-testid="select-halfTimeResult">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fenerbahce">Fenerbahçe</SelectItem>
+                      <SelectItem value="draw">Berabere</SelectItem>
+                      <SelectItem value="galatasaray">Galatasaray</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Total Corners */}
-              <div className="space-y-2">
-                <Label htmlFor="totalCorners">6. Toplam Köşe Vuruşu</Label>
-                <Select value={answers.totalCorners} onValueChange={(v) => handleAnswerChange("totalCorners", v)}>
-                  <SelectTrigger id="totalCorners" data-testid="select-totalCorners">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="0-4">0–4</SelectItem>
-                    <SelectItem value="5-8">5–8</SelectItem>
-                    <SelectItem value="9-12">9–12</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 6. Total Cards - 10 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="totalCards">6. Derbide kaç sarı/kırmızı kart çıkar? (10 puan)</Label>
+                  <Select value={answers.totalCards} onValueChange={(v) => handleAnswerChange("totalCards", v)}>
+                    <SelectTrigger id="totalCards" data-testid="select-totalCards">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0-3">0-3</SelectItem>
+                      <SelectItem value="4-6">4-6</SelectItem>
+                      <SelectItem value="6-9">6-9</SelectItem>
+                      <SelectItem value="10+">10+</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* VAR Decision */}
-              <div className="space-y-2">
-                <Label htmlFor="varDecision">7. VAR kararı olur mu?</Label>
-                <Select value={answers.varDecision} onValueChange={(v) => handleAnswerChange("varDecision", v)}>
-                  <SelectTrigger id="varDecision" data-testid="select-varDecision">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="yes">Evet</SelectItem>
-                    <SelectItem value="no">Hayır</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 7. VAR Decision - 5 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="varDecision">7. Hakem VAR'a gider mi? (5 puan)</Label>
+                  <Select value={answers.varDecision} onValueChange={(v) => handleAnswerChange("varDecision", v)}>
+                    <SelectTrigger id="varDecision" data-testid="select-varDecision">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="yes">Evet</SelectItem>
+                      <SelectItem value="no">Hayır</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Red Card */}
-              <div className="space-y-2">
-                <Label htmlFor="redCard">8. Kırmızı kart çıkar mı?</Label>
-                <Select value={answers.redCard} onValueChange={(v) => handleAnswerChange("redCard", v)}>
-                  <SelectTrigger id="redCard" data-testid="select-redCard">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="yes">Evet</SelectItem>
-                    <SelectItem value="no">Hayır</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 8. Total Corners - 10 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="totalCorners">8. Derbide kaç korner olur? (10 puan)</Label>
+                  <Select value={answers.totalCorners} onValueChange={(v) => handleAnswerChange("totalCorners", v)}>
+                    <SelectTrigger id="totalCorners" data-testid="select-totalCorners">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0-7">0-7</SelectItem>
+                      <SelectItem value="8-11">8-11</SelectItem>
+                      <SelectItem value="12+">12+</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Top Shooter */}
-              <div className="space-y-2">
-                <Label htmlFor="topShooter">9. En çok şut çeken oyuncu kim olur?</Label>
-                <Select value={answers.topShooter} onValueChange={(v) => handleAnswerChange("topShooter", v)}>
-                  <SelectTrigger id="topShooter" data-testid="select-topShooter">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {playerOptions.map(player => (
-                      <SelectItem key={player} value={player}>{player}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 9. Red Card - 10 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="redCard">9. Derbide kırmızı kart çıkar mı? (10 puan)</Label>
+                  <Select value={answers.redCard} onValueChange={(v) => handleAnswerChange("redCard", v)}>
+                    <SelectTrigger id="redCard" data-testid="select-redCard">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="yes">Evet</SelectItem>
+                      <SelectItem value="no">Hayır</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Man of Match */}
-              <div className="space-y-2">
-                <Label htmlFor="manOfMatch">10. Maçın adamı kim seçilir?</Label>
-                <Select value={answers.manOfMatch} onValueChange={(v) => handleAnswerChange("manOfMatch", v)}>
-                  <SelectTrigger id="manOfMatch" data-testid="select-manOfMatch">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {playerOptions.map(player => (
-                      <SelectItem key={player} value={player}>{player}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 10. Top Shooter - 25 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="topShooter">10. En çok isabetli şut çeken oyuncu kim olur? (25 puan)</Label>
+                  <Select value={answers.topShooter} onValueChange={(v) => handleAnswerChange("topShooter", v)}>
+                    <SelectTrigger id="topShooter" data-testid="select-topShooter">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TOP_SHOOTER_OPTIONS.map(player => (
+                        <SelectItem key={player} value={player}>{player}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* First Substitution */}
-              <div className="space-y-2">
-                <Label htmlFor="firstSubstitution">11. İlk oyuncu değişikliğini hangi takım yapar?</Label>
-                <Select value={answers.firstSubstitution} onValueChange={(v) => handleAnswerChange("firstSubstitution", v)}>
-                  <SelectTrigger id="firstSubstitution" data-testid="select-firstSubstitution">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="home">Ev sahibi</SelectItem>
-                    <SelectItem value="away">Deplasman</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 11. First Yellow Card - 25 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="firstYellowCard">11. İlk sarı kartı hangi oyuncu görür? (25 puan)</Label>
+                  <Select value={answers.firstYellowCard} onValueChange={(v) => handleAnswerChange("firstYellowCard", v)}>
+                    <SelectTrigger id="firstYellowCard" data-testid="select-firstYellowCard">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {FIRST_YELLOW_CARD_OPTIONS.map(player => (
+                        <SelectItem key={player} value={player}>{player}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Total Cards */}
-              <div className="space-y-2">
-                <Label htmlFor="totalCards">12. Derbide toplam kart sayısı kaç olur?</Label>
-                <Select value={answers.totalCards} onValueChange={(v) => handleAnswerChange("totalCards", v)}>
-                  <SelectTrigger id="totalCards" data-testid="select-totalCards">
-                    <SelectValue placeholder="Seçin..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="0-2">0–2</SelectItem>
-                    <SelectItem value="3-5">3–5</SelectItem>
-                    <SelectItem value="6+">6+</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* 12. First Goal Scorer - 20 pts */}
+                <div className="space-y-2">
+                  <Label htmlFor="firstGoalScorer">12. İlk golü hangi oyuncu atar? (20 puan)</Label>
+                  <Select value={answers.firstGoalScorer} onValueChange={(v) => handleAnswerChange("firstGoalScorer", v)}>
+                    <SelectTrigger id="firstGoalScorer" data-testid="select-firstGoalScorer">
+                      <SelectValue placeholder="Seçin..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {FIRST_GOAL_SCORER_OPTIONS.map(player => (
+                        <SelectItem key={player} value={player}>{player}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              <div className="flex gap-3">
-                <Button 
-                  onClick={handleSubmitAnswers} 
-                  className="flex-1 bg-accent hover:bg-accent/90" 
-                  disabled={isLoading}
-                  data-testid="button-submit-answers"
-                >
-                  {isLoading ? "Kaydediliyor..." : "Kaydet & Puanla"}
-                </Button>
-                <Button 
-                  onClick={handleResetAnswers} 
-                  variant="outline"
-                  disabled={isLoading}
-                  data-testid="button-reset-answers"
-                >
-                  Sıfırla
-                </Button>
+                <div className="flex gap-3">
+                  <Button 
+                    onClick={handleSubmitAnswers} 
+                    className="flex-1 bg-accent hover:bg-accent/90" 
+                    disabled={isLoading}
+                    data-testid="button-submit-answers"
+                  >
+                    {isLoading ? "Kaydediliyor..." : "Kaydet & Puanla"}
+                  </Button>
+                  <Button 
+                    onClick={handleResetAnswers} 
+                    variant="outline"
+                    disabled={isLoading}
+                    data-testid="button-reset-answers"
+                  >
+                    Sıfırla
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
           </CardContent>
         </Card>
 
@@ -567,13 +572,13 @@ export default function AdminDashboard() {
                             applicant.firstGoalTeam,
                             applicant.firstGoalTime,
                             applicant.halfTimeResult,
-                            applicant.totalCorners,
+                            applicant.totalCards,
                             applicant.varDecision,
+                            applicant.totalCorners,
                             applicant.redCard,
                             applicant.topShooter,
-                            applicant.manOfMatch,
-                            applicant.firstSubstitution,
-                            applicant.totalCards,
+                            applicant.firstYellowCard,
+                            applicant.firstGoalScorer,
                           ].filter(Boolean).length}/12
                         </td>
                       </tr>

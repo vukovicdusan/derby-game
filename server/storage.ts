@@ -16,6 +16,7 @@ export interface IStorage {
   isPlayerIdValid(playerId: string): Promise<boolean>;
   
   // Admin
+  getMatchAnswers(): Promise<any | null>;
   setMatchAnswers(answers: any): Promise<void>;
   recalculateAllScores(): Promise<number>;
   resetMatchAnswers(): Promise<void>;
@@ -179,6 +180,14 @@ export class FirestoreStorage implements IStorage {
     };
 
     await this.updateLeaderboardEntry(leaderboardEntry);
+  }
+
+  async getMatchAnswers(): Promise<any | null> {
+    const doc = await this.db.collection("matchResults").doc("current").get();
+    if (!doc.exists) {
+      return null;
+    }
+    return doc.data();
   }
 
   async setMatchAnswers(answers: any): Promise<void> {
