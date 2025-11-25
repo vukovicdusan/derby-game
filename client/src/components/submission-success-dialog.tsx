@@ -10,19 +10,17 @@ interface SubmissionSuccessDialogProps {
 export function SubmissionSuccessDialog({ open, onOpenChange }: SubmissionSuccessDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <div className="flex items-center gap-3 mb-2">
+      <DialogContent className="sm:max-w-md flex flex-col items-center text-center">
+        <DialogHeader className="w-full">
+          <div className="flex items-center justify-center gap-3 mb-2">
             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-accent/10">
               <CheckCircle className="w-6 h-6 text-accent" />
             </div>
-            <div className="flex-1">
-              <DialogTitle className="text-xl">Başarılı!</DialogTitle>
-            </div>
+            <DialogTitle className="text-xl">Başarılı!</DialogTitle>
           </div>
         </DialogHeader>
         
-        <div className="py-4 text-center">
+        <div className="py-4 w-full">
           <p className="text-base text-foreground mb-6">
             Katılımınız alınmıştır.<br />
             Teşekkür ederiz.
