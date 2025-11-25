@@ -31,11 +31,7 @@ export function SubmissionSuccessDialog({ open, onOpenChange }: SubmissionSucces
             className="w-full bg-[#009DFF] hover:bg-[#0080CC]"
             data-testid="button-goto-superbahis"
           >
-            <a 
-              href="https://tinyurl.com/wrvu447a"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://tinyurl.com/wrvu447a">
               Süperbahis'e Git
             </a>
           </Button>
