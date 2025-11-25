@@ -36,7 +36,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
             </div>
           </div>
           <DialogDescription className="text-base leading-relaxed pt-2">
-            Lütfen Süperbahis hesabınızda yer alan Oyuncu ID'nizi aşağıya girin.
+            Lütfen Süperbahis hesabınızdaki Oyuncu ID'nizi aşağıya girin.
           </DialogDescription>
         </DialogHeader>
         
@@ -44,13 +44,13 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="userName" className="text-base font-medium">
-                Ad
+                Liderboard Görünen İsminiz (Nickname)
               </Label>
               <Input
                 id="userName"
                 data-testid="input-username-dialog"
                 type="text"
-                placeholder="Ad"
+                placeholder="Lider tablosunda bu isim görünecektir."
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 className="text-base"
@@ -59,19 +59,19 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 disabled={isSubmitting}
               />
               <p className="text-sm text-muted-foreground">
-                Lider tablosunda gösterilecek adınız
+                Lider tablosunda bu isim görünecektir.
               </p>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="playerId" className="text-base font-medium">
-                ID Numaranız
+                Süperbahis Oyuncu ID'niz
               </Label>
               <Input
                 id="playerId"
                 data-testid="input-player-id"
                 type="number"
-                placeholder="ID Numaranız"
+                placeholder="Örn: 1283746"
                 value={playerId}
                 onChange={(e) => setPlayerId(e.target.value)}
                 className="text-base"
@@ -80,7 +80,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 min="0"
               />
               <p className="text-sm text-muted-foreground">
-                ID sadece rakamlardan oluşmaktadır.
+                ID sadece rakamlardan oluşur. Hesabınıza giriş yaptıktan sonra Profil &gt; Hesap Bilgileri bölümünde bulabilirsiniz.
               </p>
             </div>
           </div>
