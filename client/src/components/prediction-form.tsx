@@ -412,12 +412,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
       />
       <SubmissionSuccessDialog
         open={showSuccessDialog}
-        onOpenChange={(open) => {
-          setShowSuccessDialog(open);
-          if (!open) {
-            onSubmitSuccess();
-          }
-        }}
+        onOpenChange={setShowSuccessDialog}
       />
     </div>
   );
