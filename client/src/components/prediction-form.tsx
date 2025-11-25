@@ -200,7 +200,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                   className="bg-primary hover:bg-primary/90"
                   data-testid="button-superbahis-uye-ol"
                 >
-                  <a href="#">Superbahis'e Üye Ol</a>
+                  <a href="#" target="_blank" rel="noopener noreferrer">Superbahis'e Üye Ol</a>
                 </Button>
               </div>
             </div>
@@ -262,7 +262,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                     Etkinliğe katılmak için Süperbahis üyesi olmanız gerekmektedir.
                   </p>
                   <p>
-                    <a href="https://tinyurl.com/wrvu447a" className="hover:underline font-semibold" style={{ color: "#009DFF" }}>
+                    <a href="https://tinyurl.com/wrvu447a" target="_blank" rel="noopener noreferrer" className="hover:underline font-semibold" style={{ color: "#009DFF" }}>
                       Üye değilseniz buradan kayıt olabilirsiniz.
                     </a>
                   </p>

@@ -105,6 +105,8 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
               Süperbahis hesabınız yoksa{" "}
               <a 
                 href="https://tinyurl.com/wrvu447a" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:underline font-semibold" 
                 style={{ color: "#009DFF" }}
               >
