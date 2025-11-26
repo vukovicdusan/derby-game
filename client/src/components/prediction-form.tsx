@@ -212,8 +212,8 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
           {/* Background behind banner and header */}
           <div className="fixed top-0 left-0 right-0 h-[280px] md:h-[320px] z-10 bg-background"></div>
 
-          {/* Header with progress - positioned below banner with 1rem gap */}
-          <div className="sticky top-[201px] md:top-[241px] z-40 bg-background border-b-2 border-accent">
+          {/* Header with progress - positioned below banner with smaller gap on mobile */}
+          <div className="sticky top-[185px] md:top-[241px] z-40 bg-background border-b-2 border-accent">
             <div className="max-w-2xl mx-auto px-4 py-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
@@ -226,7 +226,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
           </div>
 
           {/* Form content - adjusted for fixed banner and sticky header */}
-          <div className="max-w-2xl mx-auto px-4 py-8 pt-[256px] md:pt-[296px]">
+          <div className="max-w-2xl mx-auto px-4 py-8 pt-[240px] md:pt-[296px]">
             {/* Title and Description Section */}
             <div className="mb-8 relative text-left">
               <div className="mb-6">
