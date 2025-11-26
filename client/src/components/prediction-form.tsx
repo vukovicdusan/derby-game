@@ -274,8 +274,11 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                               <CheckCircle2 className="w-4 h-4 text-accent" data-testid={`check-${question.field}`} />
                             )}
                           </div>
-                          <CardTitle className="text-lg md:text-xl font-bold leading-tight">
+                          <CardTitle className="text-lg md:text-xl font-bold leading-tight flex items-center gap-2 flex-wrap">
                             {question.question}
+                            <Badge variant="outline" className="text-xs font-semibold bg-primary/10 text-primary border-primary/30">
+                              {question.points} puan
+                            </Badge>
                           </CardTitle>
                         </div>
                       </div>
