@@ -226,7 +226,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
           </div>
 
           {/* Form content - adjusted for fixed banner and sticky header */}
-          <div className="max-w-2xl mx-auto px-4 py-6 pt-[232px] md:pt-[288px]">
+          <div className="max-w-2xl mx-auto px-4 py-6 pt-[210px] md:pt-[288px]">
             {/* Title and Description Section */}
             <div className="mb-8 relative text-left">
               <div className="mb-6">
