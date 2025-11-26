@@ -19,7 +19,7 @@ import { PlayerIdDialog } from "@/components/player-id-dialog";
 import { RulesDialog } from "@/components/rules-dialog";
 import { SubmissionSuccessDialog } from "@/components/submission-success-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
-import bannerImage from "@assets/Sign-Up_Sport_June_2025_September-970x250-Stack_Digital_1763998273969.webp";
+import bannerImage from "@assets/banner_1764165050432.webp";
 import logoImage from "@assets/superbahis-logo_1763999127745.png";
 
 interface PredictionFormProps {
