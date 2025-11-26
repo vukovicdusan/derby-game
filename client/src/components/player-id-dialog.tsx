@@ -25,7 +25,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md text-left">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
@@ -85,12 +85,12 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
             </div>
           </div>
           
-          <div className="flex flex-col items-center gap-4 pt-4">
+          <div className="flex flex-col items-start gap-4 pt-4">
             <Button
               type="submit"
               disabled={!userName.trim() || !playerId.trim() || isSubmitting}
               data-testid="button-confirm-player-id"
-              className="bg-[#009DFF] hover:bg-[#0080CC] w-full sm:w-auto"
+              className="bg-[#009DFF] hover:bg-[#0080CC] w-full"
             >
               {isSubmitting ? (
                 <>
@@ -101,7 +101,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 "Etkinliğe Katıl"
               )}
             </Button>
-            <p className="text-sm text-muted-foreground text-center">
+            <p className="text-sm text-muted-foreground text-left">
               Süperbahis hesabınız yoksa{" "}
               <a 
                 href="https://tinyurl.com/wrvu447a" 
