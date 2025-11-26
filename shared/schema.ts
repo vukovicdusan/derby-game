@@ -57,6 +57,7 @@ export const FIRST_GOAL_SCORER_OPTIONS = [
   "İsmail Yüksek",
   "Gabriel Sara",
   "Marco Asensio",
+  "Diğer",
 ];
 
 // Derby Prediction Schema
