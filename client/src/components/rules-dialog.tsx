@@ -11,13 +11,13 @@ export function RulesDialog({ open, onOpenChange }: RulesDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Kurallar ve Katılım Şartları</DialogTitle>
+          <DialogTitle className="text-xl font-bold">Kurallar & Şartlar</DialogTitle>
         </DialogHeader>
         
         <ScrollArea className="h-[calc(90vh-120px)] pr-4">
           <div className="space-y-4 text-sm leading-relaxed">
             <div>
-              <h2 className="font-bold text-base mb-2">Toplam 100.000 TL Ödüllü Derby Özel Tahmin Yarışması!</h2>
+              <h2 className="font-bold text-base mb-2">Toplam 100.000 TL Ödüllü Derbi Özel Tahmin Yarışması!</h2>
             </div>
 
             <div>
@@ -45,7 +45,6 @@ export function RulesDialog({ open, onOpenChange }: RulesDialogProps) {
             </div>
 
             <div>
-              <h3 className="font-bold mb-2">Ek Koşullar</h3>
               <ul className="space-y-2 list-disc list-inside">
                 <li>Ödüller, kazanan kullanıcıların Süperbahis hesaplarına etkinlik bitiminden 1 gün sonra yüklenecektir.</li>
                 <li>ID'si geçersiz olan, yanlış bilgi veren veya yatırım şartını sağlayamayan kullanıcılar ödül hakkı kazanamaz.</li>
