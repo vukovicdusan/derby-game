@@ -26,16 +26,16 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md text-left">
-        <DialogHeader>
+        <DialogHeader className="text-left">
           <div className="flex items-center gap-3 mb-2">
             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
               <UserCheck className="w-6 h-6 text-primary" />
             </div>
             <div className="flex-1">
-              <DialogTitle className="text-xl">Oyuncu ID Gerekli</DialogTitle>
+              <DialogTitle className="text-xl text-left">Oyuncu ID Gerekli</DialogTitle>
             </div>
           </div>
-          <DialogDescription className="text-base leading-relaxed pt-2">
+          <DialogDescription className="text-base leading-relaxed pt-2 text-left">
             Lütfen Süperbahis hesabınızdaki Oyuncu ID'nizi aşağıya girin.
           </DialogDescription>
         </DialogHeader>
