@@ -181,7 +181,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                   onClick={() => setShowRulesDialog(true)}
                   data-testid="button-kurallar"
                 >
-                  Kurallar ve Katılım Şartları
+                  Kurallar & Şartlar
                 </Button>
                 <Button
                   size="sm"
