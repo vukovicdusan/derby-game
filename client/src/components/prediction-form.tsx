@@ -234,7 +234,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                   DERBİ ÖZEL <br />
                   TAHMİN YARIŞMASI
                 </h1>
-                <div className="space-y-3 text-sm md:text-base text-foreground">
+                <div className="space-y-1 text-sm md:text-base text-foreground">
                   <p>
                     Katılım şartı: Son 7 gün içinde minimum 1.000 TL yatırım yapmış kullanıcılar katılabilir.
                   </p>
