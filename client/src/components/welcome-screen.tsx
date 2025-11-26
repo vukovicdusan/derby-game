@@ -76,16 +76,6 @@ export function WelcomeScreen({ onStart, onViewLeaderboard }: WelcomeScreenProps
                 >
                   Tahminlere Başla
                 </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={onViewLeaderboard}
-                  data-testid="button-view-leaderboard"
-                  className="w-full text-base font-semibold"
-                  size="lg"
-                >
-                  Lider Tablosunu Görüntüle
-                </Button>
               </div>
             </form>
 

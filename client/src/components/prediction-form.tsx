@@ -173,15 +173,6 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
             <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <ThemeToggle />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={onViewLeaderboard}
-                  data-testid="button-leaderboard-nav"
-                  className="h-9 w-9"
-                >
-                  <Trophy className="w-4 h-4" />
-                </Button>
               </div>
               <div className="flex items-center gap-2">
                 <Button
