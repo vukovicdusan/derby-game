@@ -22,7 +22,7 @@ export function SubmissionSuccessDialog({ open, onOpenChange }: SubmissionSucces
         
         <div className="py-4 w-full">
           <p className="text-base text-foreground mb-6">
-            Katılımınız alınmıştır.<br />
+            Etkinlik için kaydınız alınmıştır.<br />
             Teşekkür ederiz.
           </p>
           <Button
@@ -32,7 +32,7 @@ export function SubmissionSuccessDialog({ open, onOpenChange }: SubmissionSucces
             data-testid="button-goto-superbahis"
           >
             <a href="https://tinyurl.com/wrvu447a">
-              Süperbahis'e Git
+              Süperbahis Giriş
             </a>
           </Button>
         </div>
