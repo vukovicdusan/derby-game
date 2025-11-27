@@ -197,7 +197,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                   className="bg-primary hover:bg-primary/90"
                   data-testid="button-superbahis-uye-ol"
                 >
-                  <a href="#" target="_blank" rel="noopener noreferrer">Superbahis'e Üye Ol</a>
+                  <a href="https://tinyurl.com/wrvu447a" target="_blank" rel="noopener noreferrer">Superbahis'e Üye Ol</a>
                 </Button>
               </div>
             </div>
