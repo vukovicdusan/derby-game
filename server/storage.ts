@@ -7,6 +7,7 @@ export interface IStorage {
   createPrediction(prediction: InsertPrediction): Promise<string>;
   getPredictionsByPlayerId(playerId: string): Promise<any[]>;
   getAllPredictions(): Promise<any[]>;
+  hasPlayerSubmitted(playerId: string): Promise<boolean>;
   
   // Leaderboard
   getLeaderboard(limit?: number): Promise<LeaderboardEntry[]>;
@@ -124,6 +125,16 @@ export class FirestoreStorage implements IStorage {
     // const playerDoc = await this.db.collection("players").doc(playerId).get();
     // return playerDoc.exists;
     return true;
+  }
+
+  async hasPlayerSubmitted(playerId: string): Promise<boolean> {
+    const snapshot = await this.db
+      .collection("predictions")
+      .where("playerId", "==", playerId)
+      .limit(1)
+      .get();
+    
+    return !snapshot.empty;
   }
 
   private async updateLeaderboardForPrediction(prediction: any): Promise<void> {

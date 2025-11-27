@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { PlayerIdDialog } from "@/components/player-id-dialog";
 import { RulesDialog } from "@/components/rules-dialog";
 import { SubmissionSuccessDialog } from "@/components/submission-success-dialog";
+import { DuplicateSubmissionDialog } from "@/components/duplicate-submission-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
 import bannerImage from "@assets/header-banner3_1764250287809.webp";
 
@@ -35,6 +36,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
   const [showPlayerIdDialog, setShowPlayerIdDialog] = useState(false);
   const [showRulesDialog, setShowRulesDialog] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [showDuplicateDialog, setShowDuplicateDialog] = useState(false);
   const [answeredCount, setAnsweredCount] = useState(0);
   const [tempUserName, setTempUserName] = useState(userName);
   
@@ -73,9 +75,32 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
     },
     onError: (error: Error) => {
       setShowPlayerIdDialog(false);
+      
+      // Check if this is a duplicate submission error
+      // Error message format: "409: {\"error\":\"DUPLICATE_SUBMISSION\",\"message\":\"...\"}"
+      if (error.message.includes("DUPLICATE_SUBMISSION")) {
+        setShowDuplicateDialog(true);
+        return;
+      }
+      
+      // Try to parse the error message for better display
+      let errorMessage = "Tahminler gönderilemedi. Lütfen tekrar deneyin.";
+      try {
+        const jsonMatch = error.message.match(/\d+:\s*(.+)/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[1]);
+          errorMessage = parsed.message || parsed.error || errorMessage;
+        }
+      } catch {
+        // Use the original error message if parsing fails
+        if (error.message) {
+          errorMessage = error.message;
+        }
+      }
+      
       toast({
         title: "Hata oluştu",
-        description: error.message || "Tahminler gönderilemedi. Lütfen tekrar deneyin.",
+        description: errorMessage,
         variant: "destructive",
       });
     },
@@ -410,6 +435,10 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
       <SubmissionSuccessDialog
         open={showSuccessDialog}
         onOpenChange={setShowSuccessDialog}
+      />
+      <DuplicateSubmissionDialog
+        open={showDuplicateDialog}
+        onOpenChange={setShowDuplicateDialog}
       />
     </div>
   );

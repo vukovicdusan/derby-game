@@ -27,6 +27,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Check if player has already submitted
+      const hasSubmitted = await storage.hasPlayerSubmitted(validatedData.playerId);
+      if (hasSubmitted) {
+        return res.status(409).json({
+          error: "DUPLICATE_SUBMISSION",
+          message: "Bu kullanıcı numarası ile zaten katılım yapılmış.",
+        });
+      }
+
       // Create prediction
       const predictionId = await storage.createPrediction(validatedData);
 
