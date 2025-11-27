@@ -245,12 +245,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                 </h1>
                 <div className="space-y-1 text-sm md:text-base text-foreground">
                   <p>
-                    Katılım şartı: Son 7 gün içinde minimum 1.000 TL yatırım yapmış kullanıcılar katılabilir.
-                  </p>
-                  <p>
-                    Etkinliğe katılmak için Süperbahis üyesi olmanız gerekmektedir.
-                  </p>
-                  <p>
+                    Etkinliğe katılmak için Süperbahis üyesi olmanız ve son 7 gün içinde minimum 1.000 TL yatırım yapmış olmanız gerekmektedir.{" "}
                     <a href="https://tinyurl.com/wrvu447a" target="_blank" rel="noopener noreferrer" className="hover:underline font-semibold" style={{ color: "#009DFF" }}>
                       Üye değilseniz buradan kayıt olabilirsiniz.
                     </a>
