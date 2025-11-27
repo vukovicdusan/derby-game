@@ -10,7 +10,7 @@ import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { RulesDialog } from "@/components/rules-dialog";
-import bannerImage from "@assets/header-banner3_1764250064199.jpg";
+import bannerImage from "@assets/header-banner3_1764250287809.webp";
 import logoImage from "@assets/superbahis-logo_1763999127745.png";
 
 interface LeaderboardProps {
@@ -86,14 +86,14 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
 
       {/* Fixed Banner - centered with max width, positioned below top nav and gap */}
       <div className="fixed top-16 left-0 right-0 z-20 flex justify-center">
-        <div className="w-full max-w-[700px]">
+        <a href="https://tinyurl.com/wrvu447a" target="_blank" rel="noopener noreferrer" className="w-full max-w-[700px]">
           <img 
             src={bannerImage} 
             alt="Sports Bonus Banner" 
-            className="w-full h-auto object-cover"
+            className="w-full h-auto object-cover cursor-pointer"
             data-testid="banner-image"
           />
-        </div>
+        </a>
       </div>
 
       {/* Header with progress - positioned below banner with 1rem gap */}
