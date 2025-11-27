@@ -76,9 +76,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 disabled={isSubmitting}
                 min="0"
               />
-              <p className="text-sm text-muted-foreground">
-                ID sadece rakamlardan oluşur. Hesabınıza giriş yaptıktan sonra Profil &gt; Hesap Bilgileri bölümünde bulabilirsiniz.
-              </p>
+              <p className="text-sm text-muted-foreground">Kullanıcı numarası rakamlardan oluşur. Hesabım - Hesap Özetim bölümünün altında kullanıcı numaranızı sol üstte bulabilirsiniz.</p>
             </div>
           </div>
           
