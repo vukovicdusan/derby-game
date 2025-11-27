@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { PredictionForm } from "@/components/prediction-form";
 import { Leaderboard } from "@/components/leaderboard";
 
-const COMPETITION_END_DATE = new Date("2024-12-01T17:00:00.000Z");
+const COMPETITION_END_DATE = new Date("2025-12-01T17:00:00.000Z");
 
 function isCompetitionEnded(): boolean {
   return new Date() >= COMPETITION_END_DATE;
