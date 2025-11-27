@@ -44,7 +44,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="userName" className="text-base font-medium">
-                Liderboard Görünen İsminiz (Nickname)
+                Liderboard İsminiz (Nickname)
               </Label>
               <Input
                 id="userName"
