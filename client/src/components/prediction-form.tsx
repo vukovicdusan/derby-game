@@ -366,7 +366,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                       Tahminleri Gönder
                     </CardTitle>
                     <p className="text-sm text-muted-foreground mt-2">
-                      Tüm soruları cevapladınız mı? Tahminlerinizi göndermek için Oyuncu ID'nize ihtiyacımız var.{" "}
+                      Tahminleri göndermek için Süperbahis kullanıcı numarasını bir sonraki adımda girmeniz gerekmektedir.{" "}
                       <button 
                         type="button"
                         onClick={() => setShowRulesDialog(true)}
