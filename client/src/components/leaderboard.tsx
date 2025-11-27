@@ -17,9 +17,10 @@ interface LeaderboardProps {
   hasSubmitted: boolean;
   userName: string;
   onBackToForm: () => void;
+  competitionEnded?: boolean;
 }
 
-export function Leaderboard({ hasSubmitted, userName, onBackToForm }: LeaderboardProps) {
+export function Leaderboard({ hasSubmitted, userName, onBackToForm, competitionEnded = false }: LeaderboardProps) {
   const [showRulesDialog, setShowRulesDialog] = useState(false);
   const { data: leaderboard, isLoading, refetch, isRefetching } = useQuery<LeaderboardEntry[]>({
     queryKey: ["/api/leaderboard"],
@@ -100,15 +101,22 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
       <div className="sticky top-[201px] md:top-[241px] z-20 bg-background border-b-2 border-accent">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleBack}
-              data-testid="button-back-to-form"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2 text-accent" />
-              {userName ? "Tahminlere Dön" : "Geri Dön"}
-            </Button>
+            {competitionEnded ? (
+              <div className="flex items-center gap-2">
+                <Trophy className="w-5 h-5 text-yellow-500" />
+                <span className="text-base font-bold text-foreground">Yarışma Sona Erdi</span>
+              </div>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleBack}
+                data-testid="button-back-to-form"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2 text-accent" />
+                {userName ? "Tahminlere Dön" : "Geri Dön"}
+              </Button>
+            )}
             <Button
               variant="outline"
               size="sm"
@@ -160,7 +168,20 @@ export function Leaderboard({ hasSubmitted, userName, onBackToForm }: Leaderboar
           </div>
         </div>
 
-        {hasSubmitted && (
+        {competitionEnded && (
+          <Card className="mb-6 border-yellow-500/40 bg-yellow-500/10 border-l-4 border-l-yellow-500">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-center gap-3">
+                <Trophy className="w-6 h-6 text-yellow-500" />
+                <p className="text-center text-base font-semibold text-foreground">
+                  Yarışma sona erdi! Nihai sonuçlar aşağıda gösterilmektedir.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {hasSubmitted && !competitionEnded && (
           <Card className="mb-6 border-accent/40 bg-accent/10 border-l-4 border-l-accent">
             <CardContent className="pt-6">
               <p className="text-center text-base text-foreground">
