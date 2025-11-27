@@ -58,9 +58,6 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
                 autoFocus
                 disabled={isSubmitting}
               />
-              <p className="text-sm text-muted-foreground">
-                Lider tablosunda bu isim görünecektir.
-              </p>
             </div>
 
             <div className="space-y-2">
