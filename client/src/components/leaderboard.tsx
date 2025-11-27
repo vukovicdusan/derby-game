@@ -10,7 +10,7 @@ import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { RulesDialog } from "@/components/rules-dialog";
-import bannerImage from "@assets/banner_1764165050432.webp";
+import bannerImage from "@assets/header-banner3_1764250064199.jpg";
 import logoImage from "@assets/superbahis-logo_1763999127745.png";
 
 interface LeaderboardProps {

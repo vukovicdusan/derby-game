@@ -19,7 +19,7 @@ import { PlayerIdDialog } from "@/components/player-id-dialog";
 import { RulesDialog } from "@/components/rules-dialog";
 import { SubmissionSuccessDialog } from "@/components/submission-success-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
-import bannerImage from "@assets/banner_1764165050432.webp";
+import bannerImage from "@assets/header-banner3_1764250064199.jpg";
 
 interface PredictionFormProps {
   userName: string;
