@@ -32,7 +32,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
               <UserCheck className="w-6 h-6 text-primary" />
             </div>
             <div className="flex-1">
-              <DialogTitle className="text-xl text-left">Oyuncu ID Gerekli</DialogTitle>
+              <DialogTitle className="text-xl text-left">Süperbahis Kullanıcı Numarası</DialogTitle>
             </div>
           </div>
           <DialogDescription className="text-base leading-relaxed pt-2 text-left">
