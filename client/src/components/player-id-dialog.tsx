@@ -62,7 +62,7 @@ export function PlayerIdDialog({ open, onOpenChange, onSubmit, isSubmitting }: P
 
             <div className="space-y-2">
               <Label htmlFor="playerId" className="text-base font-medium">
-                Süperbahis Oyuncu ID'niz
+                Süperbahis Kullanıcı Numaranız
               </Label>
               <Input
                 id="playerId"
