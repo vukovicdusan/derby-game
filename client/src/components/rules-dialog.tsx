@@ -22,14 +22,30 @@ export function RulesDialog({ open, onOpenChange }: RulesDialogProps) {
 
             <div>
               <h3 className="font-bold mb-2">Etkinlik Kuralları</h3>
-              <ul className="space-y-2 list-disc list-inside">
-                <li>Etkinliğe katılmak için oyuncuların Süperbahis hesabına ait geçerli Oyuncu ID'sini forma doğru şekilde girmesi zorunludur. Yanlış veya başka bir kullanıcıya ait ID girilmesi durumunda katılım geçersiz sayılır.</li>
-                <li>Katılım Şartı: Kullanıcının son 7 gün içinde minimum 1.000 TL yatırım yapmış olması gerekmektedir. Bu şartı sağlamayan kullanıcıların katılımları değerlendirmeye alınmaz.</li>
-                <li>Her kullanıcı etkinliğe yalnızca 1 kez katılabilir. Birden fazla form gönderen kullanıcıların tüm formları geçersiz sayılır.</li>
-                <li>Etkinlik saat 20:00'da sona erecektir.</li>
-                <li>Etkinlik kapsamında sorulan 12 maç tahminini cevaplamanız gerekmektedir. Yanıtlar etkinlik süresi bittikten sonra değiştirilemez.</li>
-                <li>Leaderboard (Sıralama Tablosu) etkinlik sona erdikten ertesi gün yayınlanacaktır.</li>
-              </ul>
+              <div className="space-y-3">
+                <p>Etkinliğe katılmak için Süperbahis üyesi olmanız ve son 7 gün içinde minimum 1.000 TL yatırım yapmış olmanız gerekmektedir. Bu şartı sağlamayan kullanıcıların katılımları değerlendirmeye alınmaz. Aşağıdaki yöntemleri kullanarak yatırımlarınızı sorunsuz ve hızlı şekilde gerçekleştirebilirsiniz:</p>
+                
+                <ul className="list-disc list-inside space-y-1 pl-2">
+                  <li>Kredi Kartı: Minimum yatırım 250 TL</li>
+                  <li>QR Kod: Minimum yatırım 1.000 TL</li>
+                  <li>Kripto: Limitsiz, hızlı ve güvenli yatırım imkanı</li>
+                </ul>
+
+                <p>Etkinliğe katılmak için oyuncuların Süperbahis hesabına ait geçerli Kullanıcı Numarasını forma doğru şekilde girmesi zorunludur. Yanlış veya başka bir kullanıcıya ait kullanıcı numarası girilmesi durumunda katılım geçersiz sayılır.</p>
+
+                <div className="bg-muted/50 p-3 rounded-md">
+                  <p className="font-semibold mb-2">Kullanıcı numaranızı nasıl bulabilirsiniz? (Sadece numaralardan oluşur)</p>
+                  <p className="mb-1"><strong>Masaüstü (Desktop):</strong> Ana sayfada sağ üst köşedeki kullanıcı avatar ikonuna tıklayın. Açılan sayfanın sol üst kısmında, sadece rakamlardan oluşan kullanıcı numaranızı görebilirsiniz.</p>
+                  <p><strong>Mobil (Telefon):</strong> Ana sayfadan Hesabım menüsüne girin. Hesap Özetim bölümünün altında kullanıcı numaranızı görebilirsiniz.</p>
+                </div>
+
+                <ul className="space-y-2 list-disc list-inside">
+                  <li>Her kullanıcı etkinliğe yalnızca 1 kez katılabilir. Birden fazla form gönderen kullanıcıların tüm formları geçersiz sayılır.</li>
+                  <li>Etkinlik 1 Aralık günü saat 20:00'da sona erecektir.</li>
+                  <li>Etkinlik kapsamında sorulan 12 maç tahminini cevaplamanız gerekmektedir. Yanıtlar etkinlik süresi bittikten sonra değiştirilemez.</li>
+                  <li>Leaderboard (Sıralama Tablosu) etkinlik sona erdikten ertesi gün yayınlanacaktır.</li>
+                </ul>
+              </div>
             </div>
 
             <div>
