@@ -251,7 +251,7 @@ export function PredictionForm({ userName, setUserName, onSubmitSuccess, onViewL
                     </a>
                   </p>
                   <div className="pt-2 space-y-1 text-muted-foreground text-xs md:text-sm text-left">
-                    <p className="font-semibold">Ödüller:</p>
+                    <p className="font-semibold">Nakit ödüller:</p>
                     <p>1.: 50.000 TL / 2.: 20.000 TL / 3.: 15.000 TL / 4.: 5.000 TL / 5.–10.: Kişi başı 1.000 TL / 11.–20.: Kişi başı 500 TL</p>
                   </div>
                 </div>
