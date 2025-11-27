@@ -2,6 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { type Server } from "node:http";
 
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 import { nanoid } from "nanoid";
 import { type Express } from "express";
 import { createServer as createViteServer, createLogger } from "vite";
@@ -37,7 +42,7 @@ export async function setupVite(app: Express, server: Server) {
 
     try {
       const clientTemplate = path.resolve(
-        import.meta.dirname,
+        __dirname,
         "..",
         "client",
         "index.html",
