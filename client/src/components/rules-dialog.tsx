@@ -68,6 +68,7 @@ export function RulesDialog({ open, onOpenChange }: RulesDialogProps) {
                 <li>Bonus engeli bulunan kullanıcılar kampanyadan yararlanamaz.</li>
                 <li>Süperbahis, kampanyaya dair tüm haklarını saklı tutar; gerekli gördüğü durumlarda etkinliği değiştirme, durdurma veya sonlandırma hakkına sahiptir.</li>
                 <li>Kampanyaya katılan tüm kullanıcılar bu koşulları okumuş ve kabul etmiş sayılır.</li>
+                <li>Fenerbahçe - Galatasaray maçının istatistikleri OPTA verilerine göre belirlenecektir.</li>
               </ul>
             </div>
           </div>
