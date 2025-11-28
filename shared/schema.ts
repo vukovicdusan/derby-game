@@ -15,6 +15,7 @@ export const TOP_SHOOTER_OPTIONS = [
   "Lucas Torreira",
   "Fred",
   "Diğer",
+  "Anderson Talisca",
 ];
 
 // Player options for Question 11: First Yellow Card
