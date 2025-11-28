@@ -93,7 +93,7 @@ export const predictionSchema = z.object({
   }),
   
   // Question 6: Derbide kaç sarı/kırmızı kart çıkar? (10 points)
-  totalCards: z.enum(["0-3", "4-6", "6-9", "10+"], {
+  totalCards: z.enum(["0-3", "4-6", "7-9", "10+"], {
     required_error: "Kart sayısını seçmelisiniz"
   }),
   
@@ -248,7 +248,7 @@ export const QUESTIONS = [
     options: [
       { value: "0-3", label: "0-3" },
       { value: "4-6", label: "4-6" },
-      { value: "6-9", label: "6-9" },
+      { value: "7-9", label: "7-9" },
       { value: "10+", label: "10+" },
     ],
   },
