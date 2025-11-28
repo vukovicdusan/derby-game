@@ -20,7 +20,7 @@ import { RulesDialog } from "@/components/rules-dialog";
 import { SubmissionSuccessDialog } from "@/components/submission-success-dialog";
 import { DuplicateSubmissionDialog } from "@/components/duplicate-submission-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
-import bannerImage from "@assets/header-banner3_1764250287809.webp";
+import bannerImage from "@assets/banner-28.11.webp";
 
 interface PredictionFormProps {
   userName: string;
